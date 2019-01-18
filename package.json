@@ -1,0 +1,16 @@
+{
+  "name": "dev-summit-2019-building-your-own-widget",
+  "version": "1.0.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jcfranco/dev-summit-2019-building-your-own-widget.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jcfranco/dev-summit-2019-building-your-own-widget/issues"
+  },
+  "homepage": "https://github.com/jcfranco/dev-summit-2019-building-your-own-widget#readme",
+  "dependencies": {
+    "esri-reveal.js-templates": "git+https://github.com/esri/reveal.js.git"
+  }
+}
