@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta content="initial-scale=1, maximum-scale=1,user-scalable=no"
+        name="viewport" />
+
+  <link href="https://jsdev.arcgis.com/4.11/esri/css/main.css"
+        rel="stylesheet" />
+
+  <link href="app/css/GuessWhere.css" rel="stylesheet" />
+
+  <script>
+    var href = location.href;
+    var demoLocation = href.slice(0, href.lastIndexOf("/"));
+    var dojoConfig = {
+      async: true,
+      //locale: "es",
+      packages: [
+        {
+          name: "demo",
+          location: demoLocation + "/app"
+        }
+      ]
+    };
+  </script>
+
+  <script src="https://jsdev.arcgis.com/4.11/"></script>
+
+  <style>
+    html,
+    body,
+    #viewDiv {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    .guess-where {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+  </style>
+
+  <script>
+    require([
+      "esri/Map",
+      "esri/layers/VectorTileLayer",
+      "esri/views/MapView",
+      "demo/GuessWhere",
+      "dojo/domReady!"
+    ], function(
+      Map,
+      VectorTileLayer,
+      MapView,
+      GuessWhere
+    ) {
+      var map = new Map({
+        basemap: {
+          baseLayers: [
+            new VectorTileLayer("https://arcgis.com/sharing/rest/content/items/b2cd19ebdf814f018ef6678bcdc44e3a/resources/styles/root.json")
+          ]
+        }
+      });
+
+      var view = new MapView({
+        container: "viewDiv",
+        map,
+        ui: {
+          components: ["attribution"]
+        }
+      });
+
+      var guessWhere = new GuessWhere({ view });
+
+      view.ui.add(guessWhere, "manual");
+    });
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+</body>
+</html>

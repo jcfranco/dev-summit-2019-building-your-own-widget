@@ -12,5 +12,32 @@
   "homepage": "https://github.com/jcfranco/dev-summit-2019-building-your-own-widget#readme",
   "dependencies": {
     "esri-reveal.js-templates": "git+https://github.com/esri/reveal.js.git"
+  },
+  "devDependencies": {
+    "@types/arcgis-js-api": "~4.10.0",
+    "dojo-typings": "~1.11.9",
+    "grunt": "~1.0.3",
+    "grunt-sass": "~3.0.2",
+    "prettier": "~1.16.3",
+    "typescript": "~3.3.1"
+  },
+  "prettier": {
+    "arrowParens": "always",
+    "bracketSpacing": true,
+    "jsxBracketSameLine": false,
+    "printWidth": 120,
+    "semi": true,
+    "singleQuote": false,
+    "tabWidth": 2,
+    "trailingComma": "none",
+    "useTabs": false,
+    "overrides": [
+      {
+        "files": "*.tsx",
+        "options": {
+          "printWidth": 100
+        }
+      }
+    ]
   }
 }

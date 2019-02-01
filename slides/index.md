@@ -279,7 +279,7 @@ Write simple widget
 
 # Demo: [Updated View](../demos/4-updated-view/)
 
-- Create `WebMapShowCase` to use `CustomClass` as VM
+- Create `GuessWhere` to use `CustomClass` as VM
 - Render details from the `active` portal item
 
 <!--- mention BEM -->
@@ -317,7 +317,7 @@ Write simple widget
 # Demo: [Going Further (UX)](../demos/5-final-view/)
 
 - Auto-cycle through webmaps
-- Show timer in UI
+- Show hud in UI
 - Support play/pause
 
 ---
