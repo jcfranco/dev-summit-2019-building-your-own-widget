@@ -8,6 +8,7 @@ import { aliasOf, declared, property, subclass } from "esri/core/accessorSupport
 import { accessibleHandler, renderable, tsx } from "esri/widgets/support/widget";
 import { Choice, Result } from "./interfaces";
 
+// todo: can we maybe reduce the number of classes to simplify this demo?
 const CSS = {
   root: "guess-where",
 
@@ -77,6 +78,7 @@ class GuessWhere extends declared(Widget) {
 
   private _result: Result;
 
+  // todo: can we offload this to the VM?
   private _resultDelayInMs: number = 1000;
 
   //--------------------------------------------------------------------------
@@ -237,6 +239,8 @@ class GuessWhere extends declared(Widget) {
     const countdownCircumference = 2 * Math.PI * radius;
     const percentLeft = countdown / duration;
     const dashOffset = percentLeft * countdownCircumference;
+
+    // todo: can we maybe make this a function to get a color from a percent?
     const strokeColor =
       percentLeft > 0.8
         ? "#f6f792"

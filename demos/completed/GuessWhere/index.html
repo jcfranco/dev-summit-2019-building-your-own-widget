@@ -66,11 +66,14 @@
         }
       });
 
+      // todo: add view.padding.
+      // todo: maybe the widget automatically removes all view.ui components and sets viewpadding?
+      // todo: when disabled, maybe the components get put back and viewpadding is removed.
       var view = new MapView({
         container: "viewDiv",
         map,
         ui: {
-          components: ["attribution"]
+          components: []
         }
       });
 
