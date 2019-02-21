@@ -5,6 +5,7 @@ import MapView = require("esri/views/MapView");
 import SceneView = require("esri/views/SceneView");
 
 import Accessor = require("esri/core/Accessor");
+import promiseUtils = require("esri/core/promiseUtils");
 import SimpleLineSymbol = require("esri/symbols/SimpleLineSymbol");
 import Color = require("esri/Color");
 import SimpleFillSymbol = require("esri/symbols/SimpleFillSymbol");
@@ -86,6 +87,8 @@ class GuessWhereViewModel extends declared(Accessor, HandleOwner) {
   private _nextChoices: Choices = null;
 
   private _timerIntervalId: number = null;
+
+  private _resultDelayInMs: number = 1000;
 
   //--------------------------------------------------------------------------
   //
@@ -181,7 +184,14 @@ class GuessWhereViewModel extends declared(Accessor, HandleOwner) {
 
     return {
       choice: correct,
-      done: () => this._set("choices", this._nextChoices)
+      done: () => {
+        return promiseUtils.create((resolve) => {
+          setTimeout(() => {
+            this._set("choices", this._nextChoices);
+            resolve();
+          }, this._resultDelayInMs);
+        });
+      }
     };
   }
 

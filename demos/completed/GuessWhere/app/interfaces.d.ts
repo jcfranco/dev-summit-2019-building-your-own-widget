@@ -7,7 +7,7 @@ export interface Choice {
 
 interface Result {
   choice: Choice;
-  done(): void;
+  done(): IPromise<void>;
 }
 
 interface GameData {

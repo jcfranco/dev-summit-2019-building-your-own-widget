@@ -4,11 +4,19 @@
 import MapView = require("esri/views/MapView");
 import Widget = require("esri/widgets/Widget");
 import GuessWhereViewModel = require("./GuessWhereViewModel");
-import { aliasOf, declared, property, subclass } from "esri/core/accessorSupport/decorators";
-import { accessibleHandler, renderable, tsx } from "esri/widgets/support/widget";
+import {
+  aliasOf,
+  declared,
+  property,
+  subclass
+} from "esri/core/accessorSupport/decorators";
+import {
+  accessibleHandler,
+  renderable,
+  tsx
+} from "esri/widgets/support/widget";
 import { Choice, Result } from "./interfaces";
 
-// todo: can we maybe reduce the number of classes to simplify this demo?
 const CSS = {
   root: "guess-where",
 
@@ -77,9 +85,6 @@ class GuessWhere extends declared(Widget) {
   //--------------------------------------------------------------------------
 
   private _result: Result;
-
-  // todo: can we offload this to the VM?
-  private _resultDelayInMs: number = 1000;
 
   //--------------------------------------------------------------------------
   //
@@ -225,12 +230,10 @@ class GuessWhere extends declared(Widget) {
     const choice = element["data-choice"] as Choice;
 
     this._result = this.viewModel.choose(choice);
-
-    setTimeout(() => {
-      this._result.done();
+    this._result.done().then(() => {
       this._result = null;
       this.scheduleRender();
-    }, this._resultDelayInMs);
+    });
   }
 
   protected renderHUD() {
@@ -239,18 +242,7 @@ class GuessWhere extends declared(Widget) {
     const countdownCircumference = 2 * Math.PI * radius;
     const percentLeft = countdown / duration;
     const dashOffset = percentLeft * countdownCircumference;
-
-    // todo: can we maybe make this a function to get a color from a percent?
-    const strokeColor =
-      percentLeft > 0.8
-        ? "#f6f792"
-        : percentLeft > 0.6
-        ? "#FBB740"
-        : percentLeft > 0.4
-        ? "#F78A4B"
-        : percentLeft > 0.2
-        ? "#BF5B22"
-        : "#C42519";
+    const strokeColor = this._getPercentColor(percentLeft);
 
     return (
       <div class={CSS.hud}>
@@ -280,6 +272,12 @@ class GuessWhere extends declared(Widget) {
     );
   }
 
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+
   private _onStart(): void {
     this.viewModel.start();
   }
@@ -291,6 +289,26 @@ class GuessWhere extends declared(Widget) {
 
   private _onQuit(): void {
     this.viewModel.end();
+  }
+
+  private _getPercentColor(percent: number): string {
+    if (percent > 0.8) {
+      return "#f6f792";
+    }
+
+    if (percent > 0.6) {
+      return "#FBB740";
+    }
+
+    if (percent > 0.4) {
+      return "#F78A4B";
+    }
+
+    if (percent > 0.2) {
+      return "#BF5B22";
+    }
+
+    return "#C42519";
   }
 }
 
