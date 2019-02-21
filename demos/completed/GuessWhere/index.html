@@ -72,19 +72,22 @@
       var view = new MapView({
         container: "viewDiv",
         map,
+        padding: {
+          bottom: 200
+        },
         ui: {
           components: []
         }
       });
 
-      var guessWhere = new GuessWhere({ view });
-
-      view.ui.add(guessWhere, "manual");
+      var guessWhere = new GuessWhere({ view, container: "gameDiv" });
     });
   </script>
 </head>
 
 <body>
-  <div id="viewDiv"></div>
+  <div id="viewDiv">
+  <div id="gameDiv"></div>
+  </div>
 </body>
 </html>
