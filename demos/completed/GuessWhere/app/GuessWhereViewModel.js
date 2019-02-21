@@ -19,7 +19,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/core/tsSupport/decorateHelper", "esri/core/Accessor", "esri/Color", "esri/symbols/SimpleFillSymbol", "esri/core/HandleOwner", "esri/core/accessorSupport/decorators", "./util"], function (require, exports, __extends, __decorate, Accessor, Color, SimpleFillSymbol, HandleOwner, decorators_1, util_1) {
+define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/core/tsSupport/decorateHelper", "esri/core/Accessor", "esri/core/promiseUtils", "esri/Color", "esri/symbols/SimpleFillSymbol", "esri/core/HandleOwner", "esri/core/accessorSupport/decorators", "./util"], function (require, exports, __extends, __decorate, Accessor, promiseUtils, Color, SimpleFillSymbol, HandleOwner, decorators_1, util_1) {
     "use strict";
     var rotatingColors = [
         ["#C2D3A4", "#4D5441"],
@@ -64,6 +64,7 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
             _this._gameData = null;
             _this._nextChoices = null;
             _this._timerIntervalId = null;
+            _this._resultDelayInMs = 1000;
             //--------------------------------------------------------------------------
             //
             //  Properties
@@ -141,7 +142,14 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
             }
             return {
                 choice: correct,
-                done: function () { return _this._set("choices", _this._nextChoices); }
+                done: function () {
+                    return promiseUtils.create(function (resolve) {
+                        setTimeout(function () {
+                            _this._set("choices", _this._nextChoices);
+                            resolve();
+                        }, _this._resultDelayInMs);
+                    });
+                }
             };
         };
         GuessWhereViewModel.prototype.end = function () {

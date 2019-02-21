@@ -63,7 +63,6 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
         //--------------------------------------------------------------------------
         function GuessWhere(props) {
             var _this = _super.call(this) || this;
-            _this._resultDelayInMs = 1000;
             //--------------------------------------------------------------------------
             //
             //  Properties
@@ -145,11 +144,10 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
             var element = event.currentTarget;
             var choice = element["data-choice"];
             this._result = this.viewModel.choose(choice);
-            setTimeout(function () {
-                _this._result.done();
+            this._result.done().then(function () {
                 _this._result = null;
                 _this.scheduleRender();
-            }, this._resultDelayInMs);
+            });
         };
         GuessWhere.prototype.renderHUD = function () {
             var _a = this.viewModel, countdown = _a.countdown, duration = _a.duration;
@@ -157,21 +155,18 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
             var countdownCircumference = 2 * Math.PI * radius;
             var percentLeft = countdown / duration;
             var dashOffset = percentLeft * countdownCircumference;
-            var strokeColor = percentLeft > 0.8
-                ? "#f6f792"
-                : percentLeft > 0.6
-                    ? "#FBB740"
-                    : percentLeft > 0.4
-                        ? "#F78A4B"
-                        : percentLeft > 0.2
-                            ? "#BF5B22"
-                            : "#C42519";
+            var strokeColor = this._getPercentColor(percentLeft);
             return (widget_1.tsx("div", { class: CSS.hud },
                 widget_1.tsx("svg", { class: CSS.hudTimer, viewBox: "0 0 100 100", xmlns: "http://www.w3.org/2000/svg", "aria-label": countdown + " seconds left in this round" },
                     widget_1.tsx("circle", { cx: "50", cy: "50", r: "50", fill: "#333745" }),
                     widget_1.tsx("circle", { class: CSS.hudTimerRing, cx: "50", cy: "50", r: radius, fill: "transparent", stroke: strokeColor, "stroke-width": "4", "stroke-dasharray": countdownCircumference, "stroke-dashoffset": countdownCircumference - dashOffset })),
                 widget_1.tsx("div", { class: CSS.hudText, "aria-label": "Score" }, this.viewModel.points)));
         };
+        //--------------------------------------------------------------------------
+        //
+        //  Private Methods
+        //
+        //--------------------------------------------------------------------------
         GuessWhere.prototype._onStart = function () {
             this.viewModel.start();
         };
@@ -181,6 +176,21 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
         };
         GuessWhere.prototype._onQuit = function () {
             this.viewModel.end();
+        };
+        GuessWhere.prototype._getPercentColor = function (percent) {
+            if (percent > 0.8) {
+                return "#f6f792";
+            }
+            if (percent > 0.6) {
+                return "#FBB740";
+            }
+            if (percent > 0.4) {
+                return "#F78A4B";
+            }
+            if (percent > 0.2) {
+                return "#BF5B22";
+            }
+            return "#C42519";
         };
         __decorate([
             decorators_1.aliasOf("viewModel.view")
