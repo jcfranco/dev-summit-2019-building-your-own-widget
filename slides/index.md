@@ -372,7 +372,7 @@ Write simple widget
 
 > 🤔 Where can I find the slides/source?
 
-👉 [esriurl.com/developwidgetsuc2018](http://esriurl.com/developwidgetsuc2018) 👈
+👉 [bit.ly/buildwidgetsds19](http://bit.ly/buildwidgetsds19) 👈
 
 ---
 
