@@ -1,29 +1,17 @@
-define(["require", "exports", "esri/Map", "esri/views/MapView", "esri/layers/VectorTileLayer", "./GuessWhere"], function (require, exports, Map, MapView, VectorTileLayer, GuessWhere) {
+define(["require", "exports", "esri/Map", "esri/views/MapView", "./GuessWhere"], function (require, exports, Map, MapView, GuessWhere) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     //----------------
     //  map setup
     //----------------
     var map = new Map({
-        basemap: {
-            baseLayers: [
-                new VectorTileLayer({
-                    url: "https://arcgis.com/sharing/rest/content/items/b2cd19ebdf814f018ef6678bcdc44e3a/resources/styles/root.json"
-                })
-            ]
-        }
+        basemap: "streets-vector"
     });
     var view = new MapView({
-        container: "viewDiv",
         map: map,
+        container: "viewDiv",
         center: [-116.538433, 33.824775],
-        zoom: 13,
-        padding: {
-            bottom: 200
-        },
-        ui: {
-            components: []
-        }
+        zoom: 13
     });
     //----------------
     //  widget setup

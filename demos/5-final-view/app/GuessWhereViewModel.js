@@ -19,18 +19,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/core/tsSupport/decorateHelper", "esri/core/Accessor", "esri/core/promiseUtils", "esri/core/HandleOwner", "esri/core/accessorSupport/decorators", "./choiceEngine", "./utils"], function (require, exports, __extends, __decorate, Accessor, promiseUtils, HandleOwner, decorators_1, choiceEngine_1, utils_1) {
+define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/core/tsSupport/decorateHelper", "esri/core/Accessor", "esri/Graphic", "esri/core/accessorSupport/decorators", "./utils"], function (require, exports, __extends, __decorate, Accessor, Graphic, decorators_1, utils_1) {
     "use strict";
-    var secondInMs = 1000;
-    var gameDurationInSeconds = 30;
-    var GuessWhereViewModel = /** @class */ (function (_super) {
-        __extends(GuessWhereViewModel, _super);
+    var GuessWhereViewModelFinal = /** @class */ (function (_super) {
+        __extends(GuessWhereViewModelFinal, _super);
         //--------------------------------------------------------------------------
         //
         //  Lifecycle
         //
         //--------------------------------------------------------------------------
-        function GuessWhereViewModel(props) {
+        function GuessWhereViewModelFinal(props) {
             var _this = _super.call(this) || this;
             //--------------------------------------------------------------------------
             //
@@ -38,10 +36,45 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
             //
             //--------------------------------------------------------------------------
             _this._active = false;
-            _this._choiceEngine = null;
-            _this._result = null;
-            _this._resultDelayInMs = 1000;
-            _this._timerIntervalId = null;
+            _this._choices = [
+                {
+                    name: "Palm Springs",
+                    feature: new Graphic({
+                        geometry: {
+                            type: "point",
+                            x: -12970052.058526255,
+                            y: 4004544.8553683264,
+                            spatialReference: { wkid: 102100 }
+                        },
+                        symbol: { type: "simple-marker" }
+                    })
+                },
+                {
+                    name: "Redlands",
+                    feature: new Graphic({
+                        geometry: {
+                            type: "point",
+                            x: -13044706.248636946,
+                            y: 4035952.8114616736,
+                            spatialReference: { wkid: 102100 }
+                        },
+                        symbol: { type: "simple-marker" }
+                    })
+                },
+                {
+                    name: "San Diego",
+                    feature: new Graphic({
+                        geometry: {
+                            type: "point",
+                            x: -13042381.897669187,
+                            y: 3856726.5654889513,
+                            spatialReference: { wkid: 102100 }
+                        },
+                        symbol: { type: "simple-marker" }
+                    })
+                }
+            ];
+            _this._correctIndex = null;
             //--------------------------------------------------------------------------
             //
             //  Properties
@@ -52,14 +85,6 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
             //----------------------------------
             _this.choices = null;
             //----------------------------------
-            //  countdown
-            //----------------------------------
-            _this.countdown = -1;
-            //----------------------------------
-            //  duration
-            //----------------------------------
-            _this.duration = gameDurationInSeconds;
-            //----------------------------------
             //  points
             //----------------------------------
             _this.points = 0;
@@ -69,20 +94,12 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
             _this.view = null;
             return _this;
         }
-        GuessWhereViewModel.prototype.initialize = function () {
-            var _this = this;
-            choiceEngine_1.create().then(function (engine) {
-                _this._choiceEngine = engine;
-                _this.notifyChange("state");
-            });
-            this.handles.add(this.watch("choices", function (choices) { return _this._goToChoice(choices); }));
-        };
-        Object.defineProperty(GuessWhereViewModel.prototype, "state", {
+        Object.defineProperty(GuessWhereViewModelFinal.prototype, "state", {
             //----------------------------------
             //  state
             //----------------------------------
             get: function () {
-                return !this._choiceEngine ? "loading" : !this._active ? "splash" : this.countdown === -1 ? "game-over" : "playing";
+                return !this._active ? "splash" : "playing";
             },
             enumerable: true,
             configurable: true
@@ -92,44 +109,22 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
         //  Public Methods
         //
         //--------------------------------------------------------------------------
-        GuessWhereViewModel.prototype.start = function () {
-            var _this = this;
-            this._choiceEngine.randomize().then(function () {
-                _this._setNextChoices();
-                _this._set("points", 0);
-                _this._active = true;
-                _this._startTimer();
-                _this.notifyChange("state");
-            });
+        GuessWhereViewModelFinal.prototype.start = function () {
+            this._setNextChoices();
+            this._set("points", 0);
+            this._active = true;
+            this.notifyChange("state");
         };
-        GuessWhereViewModel.prototype.choose = function (choice) {
-            var _this = this;
-            // ignore choices if we're showing a result
-            if (this._result) {
-                return;
-            }
-            var correct = utils_1.getCorrect(this.choices);
-            if (choice === correct) {
+        GuessWhereViewModelFinal.prototype.choose = function (choice) {
+            var correct = this.choices[this._correctIndex] === choice;
+            if (correct) {
                 this._set("points", this.points + 1);
             }
-            var result = {
-                choice: correct,
-                done: function () {
-                    return promiseUtils.create(function (resolve) {
-                        setTimeout(function () {
-                            _this._setNextChoices();
-                            _this._result = null;
-                            resolve();
-                        }, _this._resultDelayInMs);
-                    });
-                }
-            };
-            this._result = result;
-            return result;
+            this._setNextChoices();
+            return correct;
         };
-        GuessWhereViewModel.prototype.end = function () {
+        GuessWhereViewModelFinal.prototype.end = function () {
             this._active = false;
-            this._stopTimer();
             this.notifyChange("state");
             this.view.graphics.removeAll();
         };
@@ -138,77 +133,45 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
         //  Private Methods
         //
         //--------------------------------------------------------------------------
-        GuessWhereViewModel.prototype._goToChoice = function (choices) {
+        GuessWhereViewModelFinal.prototype._goToChoice = function (choices) {
             if (!choices) {
                 return;
             }
-            var correct = utils_1.getCorrect(choices);
+            var correct = this.choices[this._correctIndex];
             var view = this.view;
             view.goTo(correct.feature, { animate: false });
             view.graphics.removeAll();
             view.graphics.add(correct.feature);
         };
-        GuessWhereViewModel.prototype._setNextChoices = function () {
-            var _this = this;
-            return this._choiceEngine.next().then(function (choices) {
-                _this._set("choices", choices);
-            });
-        };
-        GuessWhereViewModel.prototype._startTimer = function () {
-            var _this = this;
-            if (this._timerIntervalId) {
-                return;
-            }
-            this._set("countdown", this.duration);
-            this._timerIntervalId = setInterval(function () {
-                var countdown = _this.countdown;
-                if (countdown === -1) {
-                    _this._stopTimer();
-                    return;
-                }
-                _this._set("countdown", countdown - 1);
-            }, secondInMs);
-        };
-        GuessWhereViewModel.prototype._stopTimer = function () {
-            if (!this._timerIntervalId) {
-                return;
-            }
-            clearInterval(this._timerIntervalId);
-            this._timerIntervalId = null;
-            this._set("choices", null);
-            this.notifyChange("state");
+        GuessWhereViewModelFinal.prototype._setNextChoices = function () {
+            var choices = utils_1.pickChoices(this._choices);
+            this._correctIndex = Math.floor(Math.random() * 2);
+            this._set("choices", choices);
+            this._goToChoice(choices);
         };
         __decorate([
             decorators_1.property({
                 readOnly: true
             })
-        ], GuessWhereViewModel.prototype, "choices", void 0);
+        ], GuessWhereViewModelFinal.prototype, "choices", void 0);
         __decorate([
             decorators_1.property({
                 readOnly: true
             })
-        ], GuessWhereViewModel.prototype, "countdown", void 0);
+        ], GuessWhereViewModelFinal.prototype, "points", void 0);
+        __decorate([
+            decorators_1.property({
+                readOnly: true
+            })
+        ], GuessWhereViewModelFinal.prototype, "state", null);
         __decorate([
             decorators_1.property()
-        ], GuessWhereViewModel.prototype, "duration", void 0);
-        __decorate([
-            decorators_1.property({
-                readOnly: true
-            })
-        ], GuessWhereViewModel.prototype, "points", void 0);
-        __decorate([
-            decorators_1.property({
-                readOnly: true
-            })
-        ], GuessWhereViewModel.prototype, "state", null);
-        __decorate([
-            decorators_1.property()
-        ], GuessWhereViewModel.prototype, "view", void 0);
-        GuessWhereViewModel = __decorate([
+        ], GuessWhereViewModelFinal.prototype, "view", void 0);
+        GuessWhereViewModelFinal = __decorate([
             decorators_1.subclass("esri.demo.GuessWhereViewModel")
-        ], GuessWhereViewModel);
-        return GuessWhereViewModel;
-    }(decorators_1.declared(Accessor, HandleOwner)));
-    return GuessWhereViewModel;
+        ], GuessWhereViewModelFinal);
+        return GuessWhereViewModelFinal;
+    }(decorators_1.declared(Accessor)));
+    return GuessWhereViewModelFinal;
 });
 //# sourceMappingURL=GuessWhereViewModel.js.map
