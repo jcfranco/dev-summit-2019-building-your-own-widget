@@ -19,30 +19,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/core/tsSupport/decorateHelper", "esri/core/Accessor", "esri/core/promiseUtils", "esri/Color", "esri/symbols/SimpleFillSymbol", "esri/core/HandleOwner", "esri/core/accessorSupport/decorators", "./util"], function (require, exports, __extends, __decorate, Accessor, promiseUtils, Color, SimpleFillSymbol, HandleOwner, decorators_1, util_1) {
+define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/core/tsSupport/decorateHelper", "esri/core/Accessor", "esri/core/promiseUtils", "esri/core/HandleOwner", "esri/core/accessorSupport/decorators", "./choiceEngine", "./utils"], function (require, exports, __extends, __decorate, Accessor, promiseUtils, HandleOwner, decorators_1, choiceEngine_1, utils_1) {
     "use strict";
-    var rotatingColors = [
-        ["#C2D3A4", "#4D5441"],
-        ["#D3BFA4", "#544C41"],
-        ["#B1B1D3", "#464654"],
-        ["#D0B1D3", "#524654"],
-        ["#B1C6D3", "#464E54"],
-        ["#B1D3C5", "#46544E"],
-        ["#D36F19", "#542C0A"],
-        ["#D31D5C", "#540C24"],
-        ["#D3CA1E", "#54500C"],
-        ["#D3766C", "#542F2B"],
-        ["#DAD451", "#545238"]
-    ];
     var secondInMs = 1000;
     var gameDurationInSeconds = 30;
-    function getCorrect(_a) {
-        var a = _a[0], b = _a[1];
-        return isCorrect(a) ? a : b;
-    }
-    function isCorrect(choice) {
-        return !!choice.feature.geometry;
-    }
     var GuessWhereViewModel = /** @class */ (function (_super) {
         __extends(GuessWhereViewModel, _super);
         //--------------------------------------------------------------------------
@@ -58,13 +38,10 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
             //
             //--------------------------------------------------------------------------
             _this._active = false;
-            _this._choiceSymbol = new SimpleFillSymbol({
-                outline: { type: "simple-line", width: 2 }
-            });
-            _this._gameData = null;
-            _this._nextChoices = null;
-            _this._timerIntervalId = null;
+            _this._choiceEngine = null;
+            _this._result = null;
             _this._resultDelayInMs = 1000;
+            _this._timerIntervalId = null;
             //--------------------------------------------------------------------------
             //
             //  Properties
@@ -85,7 +62,7 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
             //----------------------------------
             //  points
             //----------------------------------
-            _this.points = -1;
+            _this.points = 0;
             //----------------------------------
             //  view
             //----------------------------------
@@ -94,12 +71,10 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
         }
         GuessWhereViewModel.prototype.initialize = function () {
             var _this = this;
-            util_1.fetchGameData()
-                .then(function (data) {
-                _this._gameData = data;
+            choiceEngine_1.create().then(function (engine) {
+                _this._choiceEngine = engine;
                 _this.notifyChange("state");
-            })
-                .then(function () { return _this._fetchNextChoices(); });
+            });
             this.handles.add(this.watch("choices", function (choices) { return _this._goToChoice(choices); }));
         };
         Object.defineProperty(GuessWhereViewModel.prototype, "state", {
@@ -107,7 +82,7 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
             //  state
             //----------------------------------
             get: function () {
-                return !this._gameData ? "loading" : !this._active ? "splash" : this.countdown === -1 ? "game-over" : "playing";
+                return !this._choiceEngine ? "loading" : !this._active ? "splash" : this.countdown === -1 ? "game-over" : "playing";
             },
             enumerable: true,
             configurable: true
@@ -118,45 +93,41 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
         //
         //--------------------------------------------------------------------------
         GuessWhereViewModel.prototype.start = function () {
-            if (!this._gameData || this._active) {
-                console.log("has active game or has not started");
-                return;
-            }
-            this._fetchNextChoices();
-            this._set("choices", this._nextChoices);
-            this._set("points", 0);
-            this._active = true;
-            this._startTimer();
-            this.notifyChange("state");
+            var _this = this;
+            this._choiceEngine.randomize().then(function () {
+                _this._setNextChoices();
+                _this._set("points", 0);
+                _this._active = true;
+                _this._startTimer();
+                _this.notifyChange("state");
+            });
         };
         GuessWhereViewModel.prototype.choose = function (choice) {
             var _this = this;
-            if (!this._gameData || !this._active) {
-                console.log("game has not started");
+            // ignore choices if we're showing a result
+            if (this._result) {
                 return;
             }
-            this._fetchNextChoices();
-            var correct = getCorrect(this.choices);
+            var correct = utils_1.getCorrect(this.choices);
             if (choice === correct) {
                 this._set("points", this.points + 1);
             }
-            return {
+            var result = {
                 choice: correct,
                 done: function () {
                     return promiseUtils.create(function (resolve) {
                         setTimeout(function () {
-                            _this._set("choices", _this._nextChoices);
+                            _this._setNextChoices();
+                            _this._result = null;
                             resolve();
                         }, _this._resultDelayInMs);
                     });
                 }
             };
+            this._result = result;
+            return result;
         };
         GuessWhereViewModel.prototype.end = function () {
-            if (!this._gameData || !this._active) {
-                console.log("has no active game");
-                return;
-            }
             this._active = false;
             this._stopTimer();
             this.notifyChange("state");
@@ -171,25 +142,17 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
             if (!choices) {
                 return;
             }
-            var correct = getCorrect(choices);
+            var correct = utils_1.getCorrect(choices);
             var view = this.view;
             view.goTo(correct.feature, { animate: false });
             view.graphics.removeAll();
             view.graphics.add(correct.feature);
         };
-        GuessWhereViewModel.prototype._fetchNextChoices = function () {
+        GuessWhereViewModel.prototype._setNextChoices = function () {
             var _this = this;
-            return this._gameData
-                .generateChoices()
-                .then(function (choices) {
-                var correct = getCorrect(choices);
-                var _a = rotatingColors[Math.floor(Math.random() * rotatingColors.length)], fillColor = _a[0], outlineColor = _a[1];
-                _this._choiceSymbol.color = new Color(fillColor);
-                _this._choiceSymbol.outline.color = new Color(outlineColor);
-                correct.feature.symbol = _this._choiceSymbol.clone();
-                return choices;
-            })
-                .then(function (choices) { return (_this._nextChoices = choices); });
+            return this._choiceEngine.next().then(function (choices) {
+                _this._set("choices", choices);
+            });
         };
         GuessWhereViewModel.prototype._startTimer = function () {
             var _this = this;
@@ -213,7 +176,6 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
             clearInterval(this._timerIntervalId);
             this._timerIntervalId = null;
             this._set("choices", null);
-            this._fetchNextChoices();
             this.notifyChange("state");
         };
         __decorate([
@@ -243,7 +205,7 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
             decorators_1.property()
         ], GuessWhereViewModel.prototype, "view", void 0);
         GuessWhereViewModel = __decorate([
-            decorators_1.subclass("esri.demo.WebMapShowcaseViewModel")
+            decorators_1.subclass("esri.demo.GuessWhereViewModel")
         ], GuessWhereViewModel);
         return GuessWhereViewModel;
     }(decorators_1.declared(Accessor, HandleOwner)));
