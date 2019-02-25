@@ -6,40 +6,16 @@ import SceneView = require("esri/views/SceneView");
 
 import Accessor = require("esri/core/Accessor");
 import promiseUtils = require("esri/core/promiseUtils");
-import SimpleLineSymbol = require("esri/symbols/SimpleLineSymbol");
-import Color = require("esri/Color");
-import SimpleFillSymbol = require("esri/symbols/SimpleFillSymbol");
 import HandleOwner = require("esri/core/HandleOwner");
 import { declared, property, subclass } from "esri/core/accessorSupport/decorators";
-import { fetchGameData } from "./util";
-import { Choice, Choices, GameData, Result } from "./interfaces";
+import { create } from "./choiceEngine";
+import { Choice, Choices, ChoiceEngine, Result } from "./interfaces";
+import { getCorrect } from "./utils";
 
 type State = "loading" | "splash" | "playing" | "game-over";
 
-const rotatingColors = [
-  ["#C2D3A4", "#4D5441"],
-  ["#D3BFA4", "#544C41"],
-  ["#B1B1D3", "#464654"],
-  ["#D0B1D3", "#524654"],
-  ["#B1C6D3", "#464E54"],
-  ["#B1D3C5", "#46544E"],
-  ["#D36F19", "#542C0A"],
-  ["#D31D5C", "#540C24"],
-  ["#D3CA1E", "#54500C"],
-  ["#D3766C", "#542F2B"],
-  ["#DAD451", "#545238"]
-];
-
 const secondInMs = 1000;
 const gameDurationInSeconds = 30;
-
-function getCorrect([a, b]: Choices): Choice {
-  return isCorrect(a) ? a : b;
-}
-
-function isCorrect(choice: Choice): boolean {
-  return !!choice.feature.geometry;
-}
 
 interface GuessWhereViewModelProperties {
   view: MapView | SceneView;
@@ -47,7 +23,7 @@ interface GuessWhereViewModelProperties {
 
 interface GuessWhereViewModel extends HandleOwner {}
 
-@subclass("esri.demo.WebMapShowcaseViewModel")
+@subclass("esri.demo.GuessWhereViewModel")
 class GuessWhereViewModel extends declared(Accessor, HandleOwner) {
   //--------------------------------------------------------------------------
   //
@@ -60,14 +36,12 @@ class GuessWhereViewModel extends declared(Accessor, HandleOwner) {
   }
 
   initialize() {
-    fetchGameData()
-      .then((data) => {
-        this._gameData = data;
-        this.notifyChange("state");
-      })
-      .then(() => this._fetchNextChoices());
+    create().then((engine) => {
+      this._choiceEngine = engine;
+      this.notifyChange("state");
+    });
 
-    (this.handles as any).add(this.watch("choices", (choices) => this._goToChoice(choices)));
+    this.handles.add(this.watch("choices", (choices) => this._goToChoice(choices)));
   }
 
   //--------------------------------------------------------------------------
@@ -78,17 +52,13 @@ class GuessWhereViewModel extends declared(Accessor, HandleOwner) {
 
   private _active: boolean = false;
 
-  private _choiceSymbol: SimpleFillSymbol = new SimpleFillSymbol({
-    outline: { type: "simple-line", width: 2 } as SimpleLineSymbol
-  });
+  private _choiceEngine: ChoiceEngine = null;
 
-  private _gameData: GameData = null;
-
-  private _nextChoices: Choices = null;
-
-  private _timerIntervalId: number = null;
+  private _result: Result = null;
 
   private _resultDelayInMs: number = 1000;
+
+  private _timerIntervalId: number = null;
 
   //--------------------------------------------------------------------------
   //
@@ -128,7 +98,7 @@ class GuessWhereViewModel extends declared(Accessor, HandleOwner) {
   @property({
     readOnly: true
   })
-  readonly points: number = -1;
+  readonly points: number = 0;
 
   //----------------------------------
   //  state
@@ -138,7 +108,7 @@ class GuessWhereViewModel extends declared(Accessor, HandleOwner) {
     readOnly: true
   })
   get state(): State {
-    return !this._gameData ? "loading" : !this._active ? "splash" : this.countdown === -1 ? "game-over" : "playing";
+    return !this._choiceEngine ? "loading" : !this._active ? "splash" : this.countdown === -1 ? "game-over" : "playing";
   }
 
   //----------------------------------
@@ -154,27 +124,20 @@ class GuessWhereViewModel extends declared(Accessor, HandleOwner) {
   //--------------------------------------------------------------------------
 
   start(): void {
-    if (!this._gameData || this._active) {
-      console.log("has active game or has not started");
-      return;
-    }
-
-    this._fetchNextChoices();
-
-    this._set("choices", this._nextChoices);
-    this._set("points", 0);
-    this._active = true;
-    this._startTimer();
-    this.notifyChange("state");
+    this._choiceEngine.randomize().then(() => {
+      this._setNextChoices();
+      this._set("points", 0);
+      this._active = true;
+      this._startTimer();
+      this.notifyChange("state");
+    });
   }
 
   choose(choice: Choice): Result {
-    if (!this._gameData || !this._active) {
-      console.log("game has not started");
+    // ignore choices if we're showing a result
+    if (this._result) {
       return;
     }
-
-    this._fetchNextChoices();
 
     const correct = getCorrect(this.choices);
 
@@ -182,25 +145,25 @@ class GuessWhereViewModel extends declared(Accessor, HandleOwner) {
       this._set("points", this.points + 1);
     }
 
-    return {
+    const result = {
       choice: correct,
       done: () => {
         return promiseUtils.create((resolve) => {
           setTimeout(() => {
-            this._set("choices", this._nextChoices);
+            this._setNextChoices();
+            this._result = null;
             resolve();
           }, this._resultDelayInMs);
         });
       }
     };
+
+    this._result = result;
+
+    return result;
   }
 
   end() {
-    if (!this._gameData || !this._active) {
-      console.log("has no active game");
-      return;
-    }
-
     this._active = false;
     this._stopTimer();
     this.notifyChange("state");
@@ -225,22 +188,10 @@ class GuessWhereViewModel extends declared(Accessor, HandleOwner) {
     view.graphics.add(correct.feature);
   }
 
-  private _fetchNextChoices(): IPromise<Choices> {
-    return this._gameData
-      .generateChoices()
-      .then((choices) => {
-        const correct = getCorrect(choices);
-
-        const [fillColor, outlineColor] = rotatingColors[Math.floor(Math.random() * rotatingColors.length)];
-
-        this._choiceSymbol.color = new Color(fillColor);
-        this._choiceSymbol.outline.color = new Color(outlineColor);
-
-        correct.feature.symbol = this._choiceSymbol.clone();
-
-        return choices;
-      })
-      .then((choices) => (this._nextChoices = choices));
+  private _setNextChoices(): IPromise<void> {
+    return this._choiceEngine.next().then((choices) => {
+      this._set("choices", choices);
+    });
   }
 
   private _startTimer(): void {
@@ -270,7 +221,6 @@ class GuessWhereViewModel extends declared(Accessor, HandleOwner) {
     clearInterval(this._timerIntervalId);
     this._timerIntervalId = null;
     this._set("choices", null);
-    this._fetchNextChoices();
     this.notifyChange("state");
   }
 }

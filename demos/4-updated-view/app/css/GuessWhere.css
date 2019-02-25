@@ -24,7 +24,7 @@
 }
 
 .guess-where__choice--correct .guess-where__choice-text {
-  font-size: 4.5em;
+  font-size: 3.5em;
   line-height: 1;
 }
 
@@ -67,7 +67,7 @@
   text-align: center;
   line-height: 1;
   font-weight: bolder;
-  font-size: 4em;
+  font-size: 3em;
   transition: all ease-in-out 150ms;
 }
 
@@ -108,21 +108,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3em;
+  font-size: 2.5em;
   font-weight: bolder;
   color: white;
-}
-
-.guess-where__score {
-  display: flex;
-  position: absolute;
-  justify-content: center;
-  left: 0;
-  padding: 20px;
-  right: 0;
-  height: 20%;
-  font-size: 2em;
-  font-weight: bolder;
 }
 
 .guess-where__menu {
