@@ -1,0 +1,174 @@
+.guess-where {
+  height: 200px;
+  width: 100%;
+}
+
+.guess-where__choices {
+  width: 100%;
+  display: flex;
+}
+
+.guess-where__choice {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  color: #fff;
+  background-color: #333745;
+  transition: all ease-in-out 100ms;
+  padding: 0 95px;
+}
+
+.guess-where__choice--submitted {
+  pointer-events: none;
+}
+
+.guess-where__choice--correct .guess-where__choice-text {
+  font-size: 3.5em;
+  line-height: 1;
+}
+
+.guess-where__choice--incorrect {
+  filter: brightness(30%);
+}
+.guess-where__choice.guess-where__choice--incorrect {
+  background-color: #333745;
+}
+
+.guess-where__choice:hover {
+  cursor: pointer;
+}
+
+.guess-where__choice-a:hover {
+  background: #5fa9de;
+}
+.guess-where__choice-b:hover {
+  background: #deab5f;
+}
+
+.guess-where__choice.guess-where__choice--correct {
+  background: #a8ea63;
+}
+
+.guess-where__choice-result-icon {
+  font-size: 3em;
+  line-height: 1;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.guess-where__choice-text {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  line-height: 1;
+  font-weight: bolder;
+  font-size: 3em;
+  transition: all ease-in-out 150ms;
+}
+
+.guess-where__round {
+  height: 100%;
+  display: flex;
+}
+
+.guess-where__hud {
+  position: absolute;
+  display: flex;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.guess-where__hud-timer {
+  height: 150px;
+  width: 150px;
+  transform: rotateY(-180deg) rotateZ(-90deg);
+}
+
+.guess-where__hud-timer-ring {
+  transition: all 2s linear;
+}
+
+.guess-where__hud-text {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5em;
+  font-weight: bolder;
+  color: white;
+}
+
+.guess-where__menu {
+  background-color: #333745;
+  display: flex;
+  height: 100%;
+  color: white;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.guess-where__menu-button:hover {
+  background-color: #f6f792;
+  color: #333745;
+}
+.guess-where__menu-buttons {
+  display: flex;
+  width: 50%;
+  justify-content: space-around;
+}
+
+.guess-where__menu-button {
+  width: 200px;
+  border-radius: 4px;
+  background-color: transparent;
+  border: 3px solid #f6f792;
+  color: #f6f792;
+  font-size: 1.5em;
+  transition: all ease-in-out 100ms;
+}
+
+.guess-where__menu-button--disabled {
+  opacity: 0.5;
+}
+
+.guess-where__menu-icon {
+  animation: bobble ease 750ms 500ms alternate infinite;
+  font-size: 2.5em;
+  color: #f6f792;
+}
+
+.guess-where__menu-title {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+.guess-where__menu-title-text {
+  font-size: 2em;
+  line-height: 1.25em;
+  margin-bottom: 12px;
+}
+
+@keyframes bobble {
+  0% {
+    transform: rotate(25deg);
+  }
+  100% {
+    transform: rotate(-25deg);
+  }
+}
