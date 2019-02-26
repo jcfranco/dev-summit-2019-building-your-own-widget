@@ -39,10 +39,12 @@
   cursor: pointer;
 }
 
-.guess-where__choice-a:hover {
+.guess-where__choice-a:hover,
+.guess-where__choice-a:focus {
   background: #5fa9de;
 }
-.guess-where__choice-b:hover {
+.guess-where__choice-b:hover,
+.guess-where__choice-b:focus {
   background: #deab5f;
 }
 
@@ -123,7 +125,8 @@
   align-items: center;
 }
 
-.guess-where__menu-button:hover {
+.guess-where__menu-button:hover,
+.guess-where__menu-button:focus {
   background-color: #f6f792;
   color: #333745;
 }

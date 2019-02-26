@@ -12,7 +12,7 @@
 # Agenda
 
 - Set up dev environment
-- Create a...
+- Develop
   - Custom Class
   - Simple Widget
   - Custom Widget
@@ -301,41 +301,6 @@ Write simple widget
 # Going Further
 
 <!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-4.png" data-background-size="cover" style="padding-left: 80px;" -->
-
----
-
-# Going Further
-
-- <!-- .element: class="fragment" data-fragment-index="0" -->Improve UX
-- <!-- .element: class="fragment" data-fragment-index="1" -->Internationalization (`i18n`)
-- <!-- .element: class="fragment" data-fragment-index="2" -->Accessibility (`a11y`)
-
----
-
-<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-5.png" data-background-size="cover" style="padding-left: 80px;" -->
-
-# Demo: [Going Further (UX)](../demos/5-final-view/)
-
-- Auto-cycle through webmaps
-- Show hud in UI
-- Support play/pause
-
----
-
-<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-5.png" data-background-size="cover" style="padding-left: 80px;" -->
-
-# Demo: [Going Further (`i18n`)](../demos/6-i18n-view/)
-
-- Localize widget
-
----
-
-<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-5.png" data-background-size="cover" style="padding-left: 80px;" -->
-
-# Demo Recap: Going Further
-
-- Improved UX
-- Added support for extra locale
 
 ---
 
