@@ -112,9 +112,9 @@ render() {
   const text = enabled ? "Enabled" : "Disabled";
 
   return (
-    <div bind={this} onclick={this._toggle} class={this.classes(CSS.base, rootClasses)}>
+    <button bind={this} onclick={this._toggle} class={this.classes(CSS.base, rootClasses)}>
       {text}
-    </div>
+    </button>
   );
 }
 ```

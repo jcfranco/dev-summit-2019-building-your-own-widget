@@ -248,6 +248,7 @@ Write simple widget
 
 # Views
 
+- "Simple widget" example
 - Extend `esri/widgets/Widget`
 - Rely on ViewModel
 - Focus on UI
@@ -256,6 +257,7 @@ Write simple widget
 
 # ViewModels
 
+- "Simple class" example
 - Extend `esri/core/Accessor`
 - Provide APIs to support View
 - Focus on business logic
@@ -266,11 +268,11 @@ Write simple widget
 
 <!-- todo: maybe create graphic for this -->
 
-- View renders the state of the VM <!-- .element: class="fragment" data-fragment-index="1" -->
+- View renders the state of the VM
   - Looks at properties on VM and renders accordingly
-- User interacts with View (property/method)<!-- .element: class="fragment" data-fragment-index="2" -->
+- User interacts with View (property/method)<!-- .element: class="fragment" data-fragment-index="1" -->
   - Causes a change on VM or View
-- View updates <!-- .element: class="fragment" data-fragment-index="5" -->
+- View updates <!-- .element: class="fragment" data-fragment-index="2" -->
   - Renders again due to changes on VM
 
 ---
@@ -292,7 +294,7 @@ Write simple widget
 - Rendered property from ViewModel
 - Wired up interactivity
 - Learned to apply styles
-- Dynamically rendered UI based on a property value
+- Dynamically rendered UI based on a property value change
 
 ---
 
