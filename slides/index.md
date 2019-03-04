@@ -1,7 +1,7 @@
 <!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-1.png" data-background-size="cover" style="padding-left: 80px;" -->
 <!-- Presenter: Matt -->
 
-# Building Your Own Widget with the ArcGIS API for JavaScript
+# Building Your Own Widget <br />with the ArcGIS JSAPI
 
 ## Matt Driscoll – [@driskull](https://twitter.com/driskull)
 
