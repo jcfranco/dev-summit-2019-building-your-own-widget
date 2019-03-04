@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no" />
-    <title>ArcGIS API for JavaScript: Building Your Own Widget</title>
+
     <link rel="stylesheet" href="https://jsdev.arcgis.com/4.11/esri/css/main.css" />
     <link rel="stylesheet" href="./app/css/main.css" />
     <style>
@@ -33,9 +33,29 @@
 
   <body>
     <div id="viewDiv"></div>
-    <div id="widgetDiv"></div>
     <script>
-      require(["demo"]);
+      require(["esri/Map", "esri/views/MapView", "demo/GuessWhereViewModel"], function(
+        Map,
+        MapView,
+        GuessWhereViewModel
+      ) {
+        var map = new Map({
+          basemap: "streets-vector"
+        });
+
+        var view = new MapView({
+          map,
+          container: "viewDiv",
+          center: [-117.1628487109789, 32.706813240831096],
+          zoom: 15
+        });
+
+        vm = new GuessWhereViewModel({
+          view
+        });
+
+        console.log(vm);
+      });
     </script>
   </body>
 </html>
