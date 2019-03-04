@@ -312,7 +312,7 @@ interface Choice {
 
 ```ts
 interface GuessWhere {
-  view: MapView | SceneView; // alias of view property
+  view: MapView | SceneView; // alias of `viewModel.view` property
   viewModel: GuessWhereViewModel;
 }
 ```
