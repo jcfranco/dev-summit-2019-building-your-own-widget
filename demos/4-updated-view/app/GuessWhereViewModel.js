@@ -19,36 +19,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/core/tsSupport/decorateHelper", "esri/widgets/Widget", "esri/core/accessorSupport/decorators", "esri/widgets/support/widget"], function (require, exports, __extends, __decorate, Widget, decorators_1, widget_1) {
+define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/core/tsSupport/decorateHelper", "esri/core/Accessor", "esri/core/accessorSupport/decorators"], function (require, exports, __extends, __decorate, Accessor, decorators_1) {
     "use strict";
-    var GuessWhere = /** @class */ (function (_super) {
-        __extends(GuessWhere, _super);
+    var GuessWhereViewModel = /** @class */ (function (_super) {
+        __extends(GuessWhereViewModel, _super);
         //--------------------------------------------------------------------------
         //
         //  Lifecycle
         //
         //--------------------------------------------------------------------------
-        function GuessWhere(props) {
+        function GuessWhereViewModel(props) {
             return _super.call(this) || this;
         }
-        //--------------------------------------------------------------------------
-        //
-        //  Properties
-        //
-        //--------------------------------------------------------------------------
-        //--------------------------------------------------------------------------
-        //
-        //  Public Methods
-        //
-        //--------------------------------------------------------------------------
-        GuessWhere.prototype.render = function () {
-            return widget_1.tsx("h1", { class: "hello-world" }, "Hello World");
-        };
-        GuessWhere = __decorate([
-            decorators_1.subclass("esri.demo.GuessWhere")
-        ], GuessWhere);
-        return GuessWhere;
-    }(decorators_1.declared(Widget)));
-    return GuessWhere;
+        GuessWhereViewModel = __decorate([
+            decorators_1.subclass("esri.demo.GuessWhereViewModel")
+        ], GuessWhereViewModel);
+        return GuessWhereViewModel;
+    }(decorators_1.declared(Accessor)));
+    return GuessWhereViewModel;
 });
-//# sourceMappingURL=GuessWhere.js.map
+//# sourceMappingURL=GuessWhereViewModel.js.map
