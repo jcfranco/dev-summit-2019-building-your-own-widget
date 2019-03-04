@@ -25,3 +25,7 @@ const view = new MapView({
 const widget = new GuessWhere({ container: "widgetDiv", view });
 
 console.log(widget);
+
+// setTimeout(() => {
+//   (widget.viewModel as any)._set("state", "game-over");
+// }, 1000);
