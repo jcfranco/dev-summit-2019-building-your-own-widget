@@ -1,7 +1,7 @@
 import Map = require("esri/Map");
 import MapView = require("esri/views/MapView");
 
-import CustomWidget = require("./CustomWidget");
+import GuessWhere = require("./GuessWhere");
 
 //----------------
 //  map setup
@@ -22,4 +22,4 @@ const view = new MapView({
 //  widget setup
 //----------------
 
-const widget = new CustomWidget({ container: "widgetDiv"});
+const widget = new GuessWhere({ container: "widgetDiv", view });

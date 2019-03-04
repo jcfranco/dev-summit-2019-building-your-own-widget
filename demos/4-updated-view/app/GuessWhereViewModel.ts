@@ -13,7 +13,7 @@ interface GuessWhereViewModelProperties {
 }
 
 @subclass("esri.demo.GuessWhereViewModel")
-class GuessWhereViewModelFinal extends declared(Accessor) {
+class GuessWhereViewModel extends declared(Accessor) {
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -49,4 +49,4 @@ class GuessWhereViewModelFinal extends declared(Accessor) {
   //--------------------------------------------------------------------------
 }
 
-export = GuessWhereViewModelFinal;
+export = GuessWhereViewModel;

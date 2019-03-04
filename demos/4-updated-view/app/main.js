@@ -1,4 +1,4 @@
-define(["require", "exports", "esri/Map", "esri/views/MapView", "./CustomWidget"], function (require, exports, Map, MapView, CustomWidget) {
+define(["require", "exports", "esri/Map", "esri/views/MapView", "./GuessWhere"], function (require, exports, Map, MapView, GuessWhere) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     //----------------
@@ -16,6 +16,6 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "./CustomWidget"
     //----------------
     //  widget setup
     //----------------
-    var widget = new CustomWidget({ container: "widgetDiv" });
+    var widget = new GuessWhere({ container: "widgetDiv", view: view });
 });
 //# sourceMappingURL=main.js.map
