@@ -1,5 +1,7 @@
 ## Add Properties
 
+Lets add some properties to our widget
+
 ```ts
  //----------------------------------
 //  view
@@ -18,11 +20,15 @@ viewModel: GuessWhereViewModel = new GuessWhereViewModel();
 
 ## Add `aliasOf` Accessor decorator
 
+To "alias" a property of the ViewModel, we need to bring in the alias decorator
+
 ```ts
 import { aliasOf, declared, property, subclass } from "esri/core/accessorSupport/decorators";
 ```
 
 ## Import `GuessWhereViewModel`
+
+Import our VM so we can use it in the widget.
 
 ```ts
 import GuessWhereViewModel = require("./GuessWhereViewModel");
@@ -30,7 +36,11 @@ import GuessWhereViewModel = require("./GuessWhereViewModel");
 
 ## Compile and check if working
 
+Lets make sure everything is rendering ok and we see "hello world".
+
 ## Modify `render()` to render the game menu
+
+Lets render a game menu instead of "hello world"
 
 ```tsx
 render() {
@@ -39,6 +49,8 @@ render() {
 ```
 
 ## Add CSS constant
+
+We have an object to map and keep track of all our classes using BEM naming convention.
 
 ```ts
 const CSS = {
@@ -105,6 +117,8 @@ Compile and test UI as well as onclick button
 
 ## Update `render()` to render a game round
 
+Now lets render a round of the game when the game starts.
+
 ```tsx
 render() {
   const { state } = this.viewModel;
@@ -141,6 +155,8 @@ protected renderRound() {
 
 ## Add protected method `renderHUD`
 
+Add the "heads up display" for scoring and info.
+
 ```tsx
 protected renderHUD() {
   return (
@@ -154,6 +170,8 @@ protected renderHUD() {
 ```
 
 ## Add protected method `renderChoice`
+
+Render an option to choose from within a round.
 
 ```tsx
 protected renderChoice(choice: Choice, type: "a" | "b") {
@@ -197,6 +215,8 @@ this._onChoice = this._onChoice.bind(this);
 ```
 
 ## Compile and test game
+
+Lets compile and test out if we're able to render rounds and choose choices.
 
 ## Modify `render()` method to add mode for Game Over
 
@@ -259,4 +279,10 @@ this._onRetry = this._onRetry.bind(this);
 this._onQuit = this._onQuit.bind(this);
 ```
 
+## Modify `main.ts` to change state to "game-over"
+
+Lets modify main.ts to set the game over after a specified time.
+
 ## Compile and test out game
+
+Lets test out the game over state.

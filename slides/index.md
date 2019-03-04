@@ -323,8 +323,14 @@ interface GuessWhere {
 
 # Demo: [Updated View](../demos/4-updated-view/)
 
-- Create `GuessWhere` to use `CustomClass` as VM
-- Render details from the `active` portal item
+- Use `CustomClass` as `GuessWhereViewModel`
+  - Add a state property
+- Create `GuessWhere` view
+  - Alias VM properties
+  - Create BEM classes object
+  - Render menu, HUD, round
+
+[updated-view](../demos/4-updated-view/) | [vm-test](../demos/4-updated-view/vm-test.html)
 
 <!--- mention BEM -->
 
