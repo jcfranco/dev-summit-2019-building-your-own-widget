@@ -132,21 +132,18 @@ me.watch("age", singHappyBirthday);
 # Demo: [Custom Class](../demos/2-custom-class/)
 
 ```ts
-// fetches webmaps from a portal and provides APIs to work with them
-interface CustomClass {
-  // used to fetch webmaps items
-  portal: Portal;
-  webMapGroupId: string;
+interface CustomClass extends Accessor {
+  view: MapView | SceneView;
+  readonly choices: Choice[];
+  readonly points: number;
+  start(): void;
+  choose(choice: Choice): boolean;
+  end(): void;
+}
 
-  // active webmap and all fetched ones
-  readonly active: PortalItem;
-  readonly webMaps: PortalItem[];
-
-  // will be updated with the active webmap
-  view: MapView;
-
-  // moves to the next webmap
-  next(): void;
+interface Choice {
+  name: string;
+  feature: Graphic;
 }
 ```
 
@@ -215,6 +212,12 @@ interface CustomClass {
 <!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-5.png" data-background-size="cover" style="padding-left: 80px;" -->
 
 # Demo: [Simple View](../demos/3-simple-view/)
+
+```ts
+interface CustomWidget extends Widget {
+  enabled: boolean;
+}
+```
 
 Write simple widget
 
@@ -288,18 +291,16 @@ Simple Guess Where game
 # Demo VM Interface
 
 ```ts
-interface GuessWhereViewModel {
+interface GuessWhereViewModel extends Accessor {
   view: MapView | SceneView;
-  state: "splash" | "playing"; // readonly
-  choices: Choice[]; // readonly
-  points: number; // readonly
-  start(): void; // Start the game
-  choose(choice: Choice): boolean; // Choose choice returns true/false
-  end(): void; // stop game
+  readonly state: "splash" | "playing"; // new
+  readonly choices: Choice[];
+  readonly points: number;
+  start(): void;
+  choose(choice: Choice): boolean;
+  end(): void;
 }
-```
 
-```ts
 interface Choice {
   name: string;
   feature: Graphic;
@@ -311,7 +312,7 @@ interface Choice {
 # Demo: View Interface
 
 ```ts
-interface GuessWhere {
+interface GuessWhere extends Widget {
   view: MapView | SceneView; // alias of `viewModel.view` property
   viewModel: GuessWhereViewModel;
 }
