@@ -17,5 +17,6 @@ define(["require", "exports", "esri/Map", "esri/views/MapView", "./GuessWhere"],
     //  widget setup
     //----------------
     var widget = new GuessWhere({ container: "widgetDiv", view: view });
+    console.log(widget);
 });
 //# sourceMappingURL=main.js.map

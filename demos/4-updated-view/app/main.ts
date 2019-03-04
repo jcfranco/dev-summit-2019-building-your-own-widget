@@ -23,3 +23,5 @@ const view = new MapView({
 //----------------
 
 const widget = new GuessWhere({ container: "widgetDiv", view });
+
+console.log(widget);
