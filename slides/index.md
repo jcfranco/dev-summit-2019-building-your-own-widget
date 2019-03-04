@@ -277,6 +277,48 @@ Write simple widget
 
 ---
 
+# Lets create a custom widget
+
+[![Completed Demo](img/completed-demo.png)](../demos/completed/)
+
+Simple Guess Where game
+
+---
+
+# Demo VM Interface
+
+```ts
+interface GuessWhereViewModel {
+  view: MapView | SceneView;
+  state: "splash" | "playing"; // readonly
+  choices: Choice[]; // readonly
+  points: number; // readonly
+  start(): void; // Start the game
+  choose(choice: Choice): boolean; // Choose choice returns true/false
+  end(): void; // stop game
+}
+```
+
+```ts
+interface Choice {
+  name: string;
+  feature: Graphic;
+}
+```
+
+---
+
+# Demo: View Interface
+
+```ts
+interface GuessWhere {
+  view: MapView | SceneView; // alias of view property
+  viewModel: GuessWhereViewModel;
+}
+```
+
+---
+
 <!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-5.png" data-background-size="cover" style="padding-left: 80px;" -->
 
 # Demo: [Updated View](../demos/4-updated-view/)
@@ -344,3 +386,7 @@ Write simple widget
 ---
 
 <!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-esri.png" data-background-size="cover" style="padding-left: 80px;" -->
+
+```
+
+```
