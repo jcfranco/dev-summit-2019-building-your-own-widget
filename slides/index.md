@@ -213,13 +213,15 @@ interface Choice {
 
 # Demo: [Simple View](../demos/3-simple-view/)
 
+Develop a simple widget
+
+## CustomWidget interface
+
 ```ts
 interface CustomWidget extends Widget {
   enabled: boolean;
 }
 ```
-
-Write simple widget
 
 ---
 

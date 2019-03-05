@@ -1,6 +1,6 @@
 # Simple View Steps
 
-## 1. Setup Basic Class
+## Setup Basic Class
 
 Open `CustomWidget.tsx` and add the following basic class to the empty file.
 
@@ -10,61 +10,66 @@ Open `CustomWidget.tsx` and add the following basic class to the empty file.
 
 import Widget = require("esri/widgets/Widget");
 
-import { declared, subclass } from "esri/core/accessorSupport/decorators";
+import { renderable, tsx } from "esri/widgets/support/widget";
+
+import { property, declared, subclass } from "esri/core/accessorSupport/decorators";
 
 @subclass("esri.demo.CustomWidget")
-class CustomWidget extends declared(Widget) {}
+class CustomWidget extends declared(Widget) {
+  //--------------------------------------------------------------------------
+  //
+  //  Lifecycle
+  //
+  //--------------------------------------------------------------------------
+
+  constructor() {
+    super();
+  }
+
+  //--------------------------------------------------------------------------
+  //
+  //  Properties
+  //
+  //--------------------------------------------------------------------------
+  //--------------------------------------------------------------------------
+  //
+  //  Public Methods
+  //
+  //--------------------------------------------------------------------------
+
+  render() {}
+
+  //--------------------------------------------------------------------------
+  //
+  //  Private Methods
+  //
+  //--------------------------------------------------------------------------
+}
 
 export = CustomWidget;
 ```
 
-## 2. Add Lifecycle Section
-
-```ts
-//--------------------------------------------------------------------------
-//
-//  Lifecycle
-//
-//--------------------------------------------------------------------------
-
-constructor() {
-  super();
-}
-```
-
-## 3. Add Render
+## Modify Render method
 
 Add the `render()` public method
 
 ```tsx
-//--------------------------------------------------------------------------
-//
-//  Public Methods
-//
-//--------------------------------------------------------------------------
-
 render() {
   return <div class="custom-widget">Hello World</div>;
 }
 ```
 
-Add tsx
-
-```ts
-import { tsx } from "esri/widgets/support/widget";
-```
-
-## 4. Setup Main
+## Setup Main
 
 Open `main.ts` and setup the widget initialization.
 
-First require the widget
+## First require the widget
 
 ```ts
 import CustomWidget = require("./CustomWidget");
 ```
 
-Then initialize the widget.
+## Then initialize the widget
 
 ```ts
 //----------------
@@ -81,23 +86,12 @@ view.ui.add(widget, "top-right");
 Lets add a property to our widget
 
 ```ts
-//--------------------------------------------------------------------------
-//
-//  Properties
-//
-//--------------------------------------------------------------------------
-
 @property()
 @renderable()
 enabled = false;
 ```
 
-And then import renderable + property
-
-```ts
-import { renderable, tsx } from "esri/widgets/support/widget";
-import { property, declared, subclass } from "esri/core/accessorSupport/decorators";
-```
+## Modify our render method
 
 Modify our render method to contain a button that toggles a class
 
@@ -119,7 +113,7 @@ render() {
 }
 ```
 
-Add CSS constant for JSX
+## Add CSS constant for JSX
 
 ```ts
 const CSS = {
@@ -128,15 +122,9 @@ const CSS = {
 };
 ```
 
-Add private method to handle event
+## Add private method to handle event
 
 ```ts
-//--------------------------------------------------------------------------
-//
-//  Private Methods
-//
-//--------------------------------------------------------------------------
-
 private _toggle(): void {
   this.enabled = !this.enabled;
 }
