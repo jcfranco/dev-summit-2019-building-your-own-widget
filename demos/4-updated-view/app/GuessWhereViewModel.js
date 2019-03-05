@@ -19,23 +19,139 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/core/tsSupport/decorateHelper", "esri/core/Accessor", "esri/core/accessorSupport/decorators"], function (require, exports, __extends, __decorate, Accessor, decorators_1) {
+define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/core/tsSupport/decorateHelper", "esri/core/Accessor", "esri/Graphic", "esri/core/accessorSupport/decorators", "./utils"], function (require, exports, __extends, __decorate, Accessor, Graphic, decorators_1, utils_1) {
     "use strict";
-    var GuessWhereViewModel = /** @class */ (function (_super) {
-        __extends(GuessWhereViewModel, _super);
+    var CustomClass = /** @class */ (function (_super) {
+        __extends(CustomClass, _super);
         //--------------------------------------------------------------------------
         //
         //  Lifecycle
         //
         //--------------------------------------------------------------------------
-        function GuessWhereViewModel(props) {
-            return _super.call(this) || this;
+        function CustomClass(props) {
+            var _this = _super.call(this) || this;
+            //--------------------------------------------------------------------------
+            //
+            //  Variables
+            //
+            //--------------------------------------------------------------------------
+            _this._choices = [
+                {
+                    name: "Palm Springs",
+                    feature: new Graphic({
+                        geometry: {
+                            type: "point",
+                            x: -12970052.058526255,
+                            y: 4004544.8553683264,
+                            spatialReference: { wkid: 102100 }
+                        },
+                        symbol: { type: "simple-marker" }
+                    })
+                },
+                {
+                    name: "Redlands",
+                    feature: new Graphic({
+                        geometry: {
+                            type: "point",
+                            x: -13044706.248636946,
+                            y: 4035952.8114616736,
+                            spatialReference: { wkid: 102100 }
+                        },
+                        symbol: { type: "simple-marker" }
+                    })
+                },
+                {
+                    name: "San Diego",
+                    feature: new Graphic({
+                        geometry: {
+                            type: "point",
+                            x: -13042381.897669187,
+                            y: 3856726.5654889513,
+                            spatialReference: { wkid: 102100 }
+                        },
+                        symbol: { type: "simple-marker" }
+                    })
+                }
+            ];
+            _this._correctIndex = null;
+            //--------------------------------------------------------------------------
+            //
+            //  Properties
+            //
+            //--------------------------------------------------------------------------
+            //----------------------------------
+            //  choices
+            //----------------------------------
+            _this.choices = null;
+            //----------------------------------
+            //  points
+            //----------------------------------
+            _this.points = 0;
+            //----------------------------------
+            //  view
+            //----------------------------------
+            _this.view = null;
+            return _this;
         }
-        GuessWhereViewModel = __decorate([
-            decorators_1.subclass("esri.demo.GuessWhereViewModel")
-        ], GuessWhereViewModel);
-        return GuessWhereViewModel;
+        //--------------------------------------------------------------------------
+        //
+        //  Public Methods
+        //
+        //--------------------------------------------------------------------------
+        CustomClass.prototype.start = function () {
+            this._setNextChoices();
+            this._set("points", 0);
+        };
+        CustomClass.prototype.choose = function (choice) {
+            var correct = this.choices[this._correctIndex] === choice;
+            if (correct) {
+                this._set("points", this.points + 1);
+            }
+            this._setNextChoices();
+            return correct;
+        };
+        CustomClass.prototype.end = function () {
+            this.view.graphics.removeAll();
+        };
+        //--------------------------------------------------------------------------
+        //
+        //  Private Methods
+        //
+        //--------------------------------------------------------------------------
+        CustomClass.prototype._goToChoice = function (choices) {
+            if (!choices) {
+                return;
+            }
+            var correct = choices[this._correctIndex];
+            var view = this.view;
+            view.goTo(correct.feature, { animate: false });
+            view.graphics.removeAll();
+            view.graphics.add(correct.feature);
+        };
+        CustomClass.prototype._setNextChoices = function () {
+            var choices = utils_1.pickChoices(this._choices);
+            this._correctIndex = Math.floor(Math.random() * 2);
+            this._set("choices", choices);
+            this._goToChoice(choices);
+        };
+        __decorate([
+            decorators_1.property({
+                readOnly: true
+            })
+        ], CustomClass.prototype, "choices", void 0);
+        __decorate([
+            decorators_1.property({
+                readOnly: true
+            })
+        ], CustomClass.prototype, "points", void 0);
+        __decorate([
+            decorators_1.property()
+        ], CustomClass.prototype, "view", void 0);
+        CustomClass = __decorate([
+            decorators_1.subclass("esri.demo.CustomClass")
+        ], CustomClass);
+        return CustomClass;
     }(decorators_1.declared(Accessor)));
-    return GuessWhereViewModel;
+    return CustomClass;
 });
 //# sourceMappingURL=GuessWhereViewModel.js.map

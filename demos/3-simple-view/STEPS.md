@@ -81,6 +81,10 @@ const widget = new CustomWidget();
 view.ui.add(widget, "top-right");
 ```
 
+## Compile and test
+
+You should see a red button!
+
 ## Improving on CustomWidget
 
 Lets add a property to our widget
