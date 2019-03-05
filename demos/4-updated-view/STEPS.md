@@ -1,3 +1,78 @@
+# ViewModel Steps
+
+## Rename class
+
+We need to take our `CustomClass` and rename it to be our `GuessWhereViewModel`
+
+```ts
+@subclass("esri.demo.GuessWhereViewModel")
+class GuessWhereViewModel extends declared(Accessor) {
+```
+
+## Add state property
+
+```ts
+//----------------------------------
+//  state
+//----------------------------------
+
+@property({
+  readOnly: true
+})
+get state(): State {
+  return !this._active ? "splash" : "playing";
+}
+```
+
+## Create State type
+
+```ts
+type State = "splash" | "playing" | "game-over";
+```
+
+## Create private variable `_active`
+
+```ts
+private _active: boolean = false;
+```
+
+## Compile: View `vm-test.html`
+
+Compile and view the [vm-test.html](vm-test.html) page
+
+## Modify `start()` method to update `_active`
+
+```ts
+start(): void {
+  this._setNextChoices();
+  this._set("points", 0);
+  this._active = true;
+  this.notifyChange("state");
+}
+```
+
+## Modify `end` public method to update state
+
+```ts
+end() {
+  this._active = false;
+  this.notifyChange("state");
+  this.view.graphics.removeAll();
+}
+```
+
+## Compile:
+
+Compile and view the `vm` global variable in the console.
+
+Try the following commands in the console.
+
+- `vm.start();`
+- `vm.choose(vm.choices[0]);`
+- `vm.end();`
+
+# View Steps
+
 ## Add Properties
 
 Lets add some properties to our widget
@@ -286,3 +361,5 @@ Lets modify main.ts to set the game over after a specified time.
 ## Compile and test out game
 
 Lets test out the game over state.
+
+## Back to the slides to recap!
