@@ -208,19 +208,25 @@ interface Choice {
 
 ---
 
-<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-5.png" data-background-size="cover" style="padding-left: 80px;" -->
+# Lets create a simple widget
 
-# Demo: [Simple View](../demos/3-simple-view/)
+Simple view that renders the state of a button
 
-Develop a simple widget
-
-## CustomWidget interface
+`CustomWidget`
 
 ```ts
 interface CustomWidget extends Widget {
   enabled: boolean;
 }
 ```
+
+---
+
+<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-5.png" data-background-size="cover" style="padding-left: 80px;" -->
+
+# Demo: [Simple View](../demos/3-simple-view/)
+
+Develop a simple widget
 
 ---
 
@@ -332,7 +338,7 @@ interface GuessWhere extends Widget {
   - Create BEM classes object
   - Render menu, HUD, round
 
-[updated-view](../demos/4-updated-view/) | [vm-test](../demos/4-updated-view/vm-test.html)
+[Updated View](../demos/4-updated-view/) | [ViewModel Test Page](../demos/4-updated-view/vm-test.html)
 
 <!--- mention BEM -->
 
