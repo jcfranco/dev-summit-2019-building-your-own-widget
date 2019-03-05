@@ -297,10 +297,10 @@ Simple Guess Where game
 
 # Demo VM Interface
 
-```ts
+<pre><code class="ts" data-trim data-noescape>
 interface GuessWhereViewModel extends Accessor {
   view: MapView | SceneView;
-  readonly state: "splash" | "playing"; // new
+  <mark>readonly state: "splash" | "playing" | "game-over";</mark>
   readonly choices: Choice[];
   readonly points: number;
   start(): void;
@@ -312,7 +312,8 @@ interface Choice {
   name: string;
   feature: Graphic;
 }
-```
+	</code></pre>
+</section>
 
 ---
 
