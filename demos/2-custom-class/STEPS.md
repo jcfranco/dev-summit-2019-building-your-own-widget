@@ -30,57 +30,50 @@ This is the minimum required to create a class in 4x. All we're doing here is cr
 //--------------------------------------------------------------------------
 
 //----------------------------------
-//  active
+//  choices
 //----------------------------------
 
-@property({ readOnly: true })
-readonly active: PortalItem = null;
+@property({
+  readOnly: true
+})
+readonly choices: Choices = null;
 
 //----------------------------------
-//  portal
+//  points
 //----------------------------------
 
-@property() portal: Portal = Portal.getDefault();
-
-//----------------------------------
-//  webMapGroupId
-//----------------------------------
-
-@property() webMapGroupId: string = "a09a1595fd944f17a47a244e67d804f9";  // "Make Great Maps" group ID
-
-//----------------------------------
-//  webMaps
-//----------------------------------
-
-@property({ readOnly: true })
-readonly webMaps: PortalItem[] = null;
+@property({
+  readOnly: true
+})
+readonly points: number = 0;
 
 //----------------------------------
 //  view
 //----------------------------------
 
-@property() view: MapView = null;
+@property() view: MapView | SceneView = null;
 ```
 
 TypeScript will complain about references to classes and utilities we haven't imported, so let's go ahead and fix that.
 
 ```tsx
-import { declared, property, subclass } from "esri/core/accessorSupport/decorators";
+import MapView = require("esri/views/MapView");
+import SceneView = require("esri/views/SceneView");
 
 import Accessor = require("esri/core/Accessor");
-import Portal = require("esri/portal/Portal");
-import PortalItem = require("esri/portal/PortalItem");
-import MapView = require("esri/views/MapView");
+import Graphic = require("esri/Graphic");
+import Point = require("esri/geometry/Point");
+import SimpleMarkerSymbol = require("esri/symbols/SimpleMarkerSymbol");
+import { declared, property, subclass } from "esri/core/accessorSupport/decorators";
+import { Choice, Choices } from "./interfaces";
+import { pickChoices } from "./utils";
 ```
 
 We can leverage TypeScript and type the constructor argument to ensure our class is created with the correct properties. We'll define an interface for these properties
 
 ```tsx
 interface CustomClassProperties {
-  view: MapView;
-
-  portal?: Portal;
-  webMapGroupId?: string;
+  view: MapView | SceneView;
 }
 ```
 
@@ -100,66 +93,7 @@ constructor(props?: CustomClassProperties) {
 
 We've now implemented the properties from our design. Properties defined this way can be watched for changes and initialized by a constructor object.
 
-1.  Let's update the class to fetch the webmaps and populate when initialized.
-
-```tsx
-constructor(props?: CustomClassProperties) {
-  super();
-
-  this._fetchWebMaps().then((webMaps) => {
-    this._set("webMaps", webMaps);
-    this._setActive(webMaps[0]); // set first as `active`
-  });
-}
-```
-
-**Note** we use `_set` to internally set the value of read-only properties.
-
-TypeScript let's us know that we have not defined `_fetchWebMaps`, nor `_setActive`, so let's do that right now.
-
-```tsx
-//--------------------------------------------------------------------------
-//
-//  Private Methods
-//
-//--------------------------------------------------------------------------
-
-private _fetchWebMaps(): IPromise<PortalItem[]> {
-  const { portal, webMapGroupId } = this;
-  const webMapsFromGroupQuery = `group:${webMapGroupId} AND type:"Web Map" AND -type:"Web Mapping Application"`;
-
-  return portal
-    .load()
-    .then(() =>
-      portal.queryItems({
-        query: webMapsFromGroupQuery,
-        sortField: "num-views",
-        sortOrder: "desc"
-      })
-    )
-    .then((queryResults) => queryResults.results);
-}
-
-private _setActive(portalItem: PortalItem): void {
-  const { view } = this;
-
-  this._set("active", portalItem);
-
-  const webMap = new WebMap({ portalItem });
-
-  webMap.when(() => (view.viewpoint = webMap.initialViewProperties.viewpoint));
-
-  view.map = webMap as any;
-}
-```
-
-Let's bring in the missing imports
-
-```tsx
-import WebMap = require("esri/WebMap");
-```
-
-1.  Next up, is `next`. 🙃 This method will change the `active` property with the next available one from `webMaps`
+Let's bring in our public methods so we can finish implementing our public API.
 
 ```tsx
 //--------------------------------------------------------------------------
@@ -168,17 +102,87 @@ import WebMap = require("esri/WebMap");
 //
 //--------------------------------------------------------------------------
 
-next(): void {
-  const { webMaps } = this;
+start(): void {
+  this._setNextChoices();
+  this._set("points", 0);
+}
 
-  let index = webMaps.indexOf(this.active) + 1;
+choose(choice: Choice): boolean {
+  const correct = this.choices[this._correctIndex] === choice;
 
-  if (index === webMaps.length) {
-    index = 0;
+  if (correct) {
+    this._set("points", this.points + 1);
   }
 
-  this._setActive(webMaps[index]);
+  this._setNextChoices();
+
+  return correct;
 }
+
+end() {
+  this.view.graphics.removeAll();
+}
+```
+
+```tsx
+//--------------------------------------------------------------------------
+//
+//  Variables
+//
+//--------------------------------------------------------------------------
+
+private _choices: Choice[] = [
+  {
+    name: "Palm Springs",
+    feature: new Graphic({
+      geometry: { type: "point", x: -12970052.058526255, y: 4004544.8553683264, spatialReference: { wkid: 102100 } } as Point,
+      symbol: { type: "simple-marker" } as SimpleMarkerSymbol
+    })
+  },
+  {
+    name: "Redlands",
+    feature: new Graphic({
+      geometry: { type: "point", x: -13044706.248636946, y: 4035952.8114616736, spatialReference: { wkid: 102100 } } as Point,
+      symbol: { type: "simple-marker" } as SimpleMarkerSymbol
+    })
+  },
+  {
+    name: "San Diego",
+    feature: new Graphic({
+      geometry: { type: "point", x: -13042381.897669187, y: 3856726.5654889513, spatialReference: { wkid: 102100 } } as Point,
+      symbol: { type: "simple-marker" } as SimpleMarkerSymbol
+    })
+  }
+];
+
+private _correctIndex: number = null;
+
+//--------------------------------------------------------------------------
+//
+//  Private Methods
+//
+//--------------------------------------------------------------------------
+
+private _setNextChoices(): void {
+  const choices = pickChoices(this._choices);
+
+  this._correctIndex = Math.floor(Math.random() * 2);
+  this._set("choices", choices);
+  this._goToChoice(choices);
+}
+
+private _goToChoice(choices: Choices): void {
+    if (!choices) {
+      return;
+    }
+
+    const correct = choices[this._correctIndex];
+
+    const { view } = this;
+    (view as any).goTo(correct.feature, { animate: false });
+    view.graphics.removeAll();
+    view.graphics.add(correct.feature);
+  }
 ```
 
 We have now implemented our class and we can test it in our demo page.
@@ -210,6 +214,10 @@ const view = new MapView({
 // create an instance of our new class
 const custom = new CustomClass({ view });
 
-// set timer to set next webmap from portal
-setInterval(() => custom.next(), 5000);
+custom.watch("choices", ([a, b]) => console.log(`${a.name} or ${b.name}?`));
+
+custom.watch("points", (points) => console.log(`Got points! Total score: ${points}`));
+
+// expose instance for testing
+(window as any).custom = custom;
 ```
