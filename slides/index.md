@@ -1,5 +1,5 @@
 <!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-1.png" data-background-size="cover" style="padding-left: 80px;" -->
-<!-- Presenter: Matt -->
+<!-- Presenter: Franco -->
 
 # Building Your Own Widget <br />with the ArcGIS JSAPI
 
@@ -20,7 +20,6 @@
 
 ---
 
-<!-- Presenter: Franco -->
 <!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-4.png" data-background-size="cover" style="padding-left: 80px;" -->
 
 # Setting up the Dev Environment
