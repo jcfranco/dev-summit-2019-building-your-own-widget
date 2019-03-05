@@ -395,7 +395,3 @@ interface GuessWhere extends Widget {
 ---
 
 <!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-esri.png" data-background-size="cover" style="padding-left: 80px;" -->
-
-```
-
-```
