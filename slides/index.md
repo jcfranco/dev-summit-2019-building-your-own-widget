@@ -13,10 +13,10 @@
 
 - Set up dev environment
 - Develop
-  - Custom Class
+  - Game Class
   - Simple Widget
-  - Custom Widget
-- Enhance Custom Widget
+  - Game Widget
+- Enhance Game Widget
 
 ---
 
@@ -128,10 +128,10 @@ me.watch("age", singHappyBirthday);
 
 <!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-5.png" data-background-size="cover" -->
 
-# Demo: [Custom Class](../demos/2-custom-class/)
+# Demo: [Game Class](../demos/2-custom-class/)
 
 ```ts
-interface CustomClass extends Accessor {
+interface Game extends Accessor {
   view: MapView | SceneView;
   readonly choices: Choice[];
   readonly points: number;
@@ -150,9 +150,9 @@ interface Choice {
 
 <!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-5.png" data-background-size="cover" -->
 
-# Demo Recap: Custom Class
+# Demo Recap: Game Class
 
-- Implemented `CustomClass`
+- Implemented `Game`
   - Extended `esri/core/Accessor`
   - Created properties with `@property`
   - Typed constructor arguments
