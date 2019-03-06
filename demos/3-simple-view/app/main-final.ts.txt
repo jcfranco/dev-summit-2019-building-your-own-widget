@@ -23,3 +23,5 @@ const view = new MapView({
 //----------------
 
 const widget = new SimpleWidget({ container: "widgetDiv"});
+
+view.ui.add(widget, "top-right");
