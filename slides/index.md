@@ -152,7 +152,7 @@ interface Choice {
 
 # Demo Recap: Game Class
 
-- Implemented `Game`
+- Implemented `GuessWhere`
   - Extended `esri/core/Accessor`
   - Created properties with `@property`
   - Typed constructor arguments
@@ -332,7 +332,7 @@ interface GuessWhere extends Widget {
 
 # Demo: [Updated View](../demos/4-updated-view/)
 
-- Use `Game` class as `GuessWhereViewModel`
+- Use `GuessWhere` class as `GuessWhereViewModel`
   - Add a state property
 - Create `GuessWhere` view
   - Alias VM properties

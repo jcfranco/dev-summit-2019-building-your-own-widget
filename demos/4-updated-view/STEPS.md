@@ -2,7 +2,7 @@
 
 ## Rename class
 
-We need to take our `Game` class and rename it to be our `GuessWhereViewModel`
+We need to take our `GuessWhere` class and rename it to be our `GuessWhereViewModel`
 
 ```ts
 @subclass("esri.demo.GuessWhereViewModel")
