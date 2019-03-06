@@ -1,4 +1,4 @@
-.custom-widget {
+.simple-widget {
   background-color: rgba(255, 0, 0);
   padding: 30px;
   font-weight: bold;
@@ -7,6 +7,6 @@
   cursor: pointer;
 }
 
-.custom-widget--enabled {
+.simple-widget--enabled {
   background-color: rgba(0, 0, 255);
 }

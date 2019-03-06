@@ -9,12 +9,12 @@ import { property, declared, subclass } from "esri/core/accessorSupport/decorato
 import { renderable, tsx } from "esri/widgets/support/widget";
 
 const CSS = {
-  base: "custom-widget",
-  enabled: "custom-widget--enabled"
+  base: "simple-widget",
+  enabled: "simple-widget--enabled"
 };
 
-@subclass("esri.demo.CustomWidget")
-class CustomWidget extends declared(Widget) {
+@subclass("esri.demo.SimpleWidget")
+class SimpleWidget extends declared(Widget) {
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -68,4 +68,4 @@ class CustomWidget extends declared(Widget) {
   }
 }
 
-export = CustomWidget;
+export = SimpleWidget;

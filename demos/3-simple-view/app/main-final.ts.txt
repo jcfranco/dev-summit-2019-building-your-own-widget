@@ -1,7 +1,7 @@
 import Map = require("esri/Map");
 import MapView = require("esri/views/MapView");
 
-import CustomWidget = require("./CustomWidget");
+import SimpleWidget = require("./SimpleWidget");
 
 //----------------
 //  map setup
@@ -22,4 +22,4 @@ const view = new MapView({
 //  widget setup
 //----------------
 
-const widget = new CustomWidget({ container: "widgetDiv"});
+const widget = new SimpleWidget({ container: "widgetDiv"});

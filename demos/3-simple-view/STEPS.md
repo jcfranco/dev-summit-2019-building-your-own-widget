@@ -2,7 +2,7 @@
 
 ## Setup Basic Class
 
-Open `CustomWidget.tsx` and add the following basic class to the empty file.
+Open `SimpleWidget.tsx` and add the following basic class to the empty file.
 
 ```tsx
 /// <amd-dependency path="esri/core/tsSupport/declareExtendsHelper" name="__extends" />
@@ -14,8 +14,8 @@ import { renderable, tsx } from "esri/widgets/support/widget";
 
 import { property, declared, subclass } from "esri/core/accessorSupport/decorators";
 
-@subclass("esri.demo.CustomWidget")
-class CustomWidget extends declared(Widget) {
+@subclass("esri.demo.SimpleWidget")
+class SimpleWidget extends declared(Widget) {
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
@@ -46,7 +46,7 @@ class CustomWidget extends declared(Widget) {
   //--------------------------------------------------------------------------
 }
 
-export = CustomWidget;
+export = SimpleWidget;
 ```
 
 ## Modify Render method
@@ -55,7 +55,7 @@ Add the `render()` public method
 
 ```tsx
 render() {
-  return <div class="custom-widget">Hello World</div>;
+  return <div class="simple-widget">Hello World</div>;
 }
 ```
 
@@ -66,7 +66,7 @@ Open `main.ts` and setup the widget initialization.
 ## First require the widget
 
 ```ts
-import CustomWidget = require("./CustomWidget");
+import SimpleWidget = require("./SimpleWidget");
 ```
 
 ## Then initialize the widget
@@ -76,7 +76,7 @@ import CustomWidget = require("./CustomWidget");
 //  widget setup
 //----------------
 
-const widget = new CustomWidget();
+const widget = new SimpleWidget();
 
 view.ui.add(widget, "top-right");
 ```
@@ -85,7 +85,7 @@ view.ui.add(widget, "top-right");
 
 You should see a red button!
 
-## Improving on CustomWidget
+## Improving on SimpleWidget
 
 Lets add a property to our widget
 
@@ -121,8 +121,8 @@ render() {
 
 ```ts
 const CSS = {
-  base: "custom-widget",
-  enabled: "custom-widget--enabled"
+  base: "simple-widget",
+  enabled: "simple-widget--enabled"
 };
 ```
 
