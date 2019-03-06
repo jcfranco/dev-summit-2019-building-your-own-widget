@@ -258,7 +258,7 @@ Develop a simple widget
 
 # Views
 
-- "Simple widget" example
+- "SimpleWidget" example
 - Extend `esri/widgets/Widget`
 - Rely on ViewModel
 - Focus on UI
@@ -267,7 +267,7 @@ Develop a simple widget
 
 # ViewModels
 
-- "Simple class" example
+- "GuessWhere" class example
 - Extend `esri/core/Accessor`
 - Provide APIs to support View
 - Focus on business logic
