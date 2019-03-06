@@ -1,4 +1,4 @@
-<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-1.png" data-background-size="cover" style="padding-left: 80px;" -->
+<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-1.png" data-background-size="cover" -->
 <!-- Presenter: Franco -->
 
 # Building Your Own Widget <br />with the ArcGIS JSAPI
@@ -20,7 +20,7 @@
 
 ---
 
-<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-4.png" data-background-size="cover" style="padding-left: 80px;" -->
+<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-4.png" data-background-size="cover" -->
 
 # Setting up the Dev Environment
 
@@ -86,7 +86,7 @@ const shorthand = { person };
 
 ---
 
-<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-5.png" data-background-size="cover" style="padding-left: 80px;" -->
+<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-5.png" data-background-size="cover" -->
 
 # Demo: [Dev Environment](../demos/1-setup/)
 
@@ -94,7 +94,7 @@ const shorthand = { person };
 
 ---
 
-<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-5.png" data-background-size="cover" style="padding-left: 80px;" -->
+<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-5.png" data-background-size="cover" -->
 
 # Demo Recap: Dev Environment
 
@@ -103,7 +103,7 @@ const shorthand = { person };
 
 ---
 
-<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-4.png" data-background-size="cover" style="padding-left: 80px;" -->
+<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-4.png" data-background-size="cover" -->
 
 # Creating a Class
 
@@ -126,7 +126,7 @@ me.watch("age", singHappyBirthday);
 
 ---
 
-<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-5.png" data-background-size="cover" style="padding-left: 80px;" -->
+<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-5.png" data-background-size="cover" -->
 
 # Demo: [Custom Class](../demos/2-custom-class/)
 
@@ -148,7 +148,7 @@ interface Choice {
 
 ---
 
-<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-5.png" data-background-size="cover" style="padding-left: 80px;" -->
+<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-5.png" data-background-size="cover" -->
 
 # Demo Recap: Custom Class
 
@@ -160,7 +160,7 @@ interface Choice {
 
 ---
 
-<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-4.png" data-background-size="cover" style="padding-left: 80px;" -->
+<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-4.png" data-background-size="cover" -->
 <!-- Presenter: Matt -->
 
 # Writing a Widget
@@ -222,7 +222,7 @@ interface CustomWidget extends Widget {
 
 ---
 
-<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-5.png" data-background-size="cover" style="padding-left: 80px;" -->
+<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-5.png" data-background-size="cover" -->
 
 # Demo: [Simple View](../demos/3-simple-view/)
 
@@ -241,7 +241,7 @@ Develop a simple widget
 
 ---
 
-<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-4.png" data-background-size="cover" style="padding-left: 80px;" -->
+<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-4.png" data-background-size="cover" -->
 
 # Improving Our Widget
 
@@ -328,7 +328,7 @@ interface GuessWhere extends Widget {
 
 ---
 
-<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-5.png" data-background-size="cover" style="padding-left: 80px;" -->
+<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-5.png" data-background-size="cover" -->
 
 # Demo: [Updated View](../demos/4-updated-view/)
 
@@ -359,12 +359,12 @@ interface GuessWhere extends Widget {
 
 # Going Further
 
-<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-4.png" data-background-size="cover" style="padding-left: 80px;" -->
+<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-4.png" data-background-size="cover" -->
 
 ---
 
 <!-- Presenter: Matt -->
-<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-4.png" data-background-size="cover" style="padding-left: 80px;" -->
+<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-4.png" data-background-size="cover" -->
 
 # Final Recap
 
@@ -388,7 +388,7 @@ interface GuessWhere extends Widget {
 ---
 
 <!-- **please rate us** -->
-<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-rating.png" data-background-size="cover" style="padding-left: 80px;" -->
+<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-rating.png" data-background-size="cover" -->
 
 ---
 
@@ -400,4 +400,4 @@ interface GuessWhere extends Widget {
 
 ---
 
-<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-esri.png" data-background-size="cover" style="padding-left: 80px;" -->
+<!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-esri.png" data-background-size="cover" -->
