@@ -224,13 +224,13 @@ interface SimpleWidget extends Widget {
 
 <!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-5.png" data-background-size="cover" -->
 
-# Demo: [Simple Widget](../demos/3-simple-view/)
+# Demo: [SimpleWidget](../demos/3-simple-view/)
 
 Develop a simple widget
 
 ---
 
-# Demo Recap: Simple Widget
+# Demo Recap: SimpleWidget
 
 - Extended `esri/widgets/Widget`
 - Implemented `render()`
