@@ -12,19 +12,19 @@ import { declared, property, subclass } from "esri/core/accessorSupport/decorato
 import { Choice, Choices } from "./interfaces";
 import { pickChoices } from "./utils";
 
-interface CustomClassProperties {
+interface GameProperties {
   view: MapView | SceneView;
 }
 
-@subclass("esri.demo.CustomClass")
-class CustomClass extends declared(Accessor) {
+@subclass("esri.demo.Game")
+class Game extends declared(Accessor) {
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
 
-  constructor(props?: CustomClassProperties) {
+  constructor(props?: GameProperties) {
     super();
   }
 
@@ -145,4 +145,4 @@ class CustomClass extends declared(Accessor) {
   }
 }
 
-export = CustomClass;
+export = Game;

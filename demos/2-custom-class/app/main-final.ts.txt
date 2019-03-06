@@ -1,6 +1,6 @@
 import Map = require("esri/Map");
 import MapView = require("esri/views/MapView");
-import CustomClass = require("./CustomClass");
+import Game = require("./Game");
 
 //----------------
 //  map setup
@@ -18,14 +18,14 @@ const view = new MapView({
 });
 
 //----------------
-//  create custom class
+//  create game class
 //----------------
 
-const custom = new CustomClass({ view });
+const game = new Game({ view });
 
-custom.watch("choices", ([a, b]) => console.log(`${a.name} or ${b.name}?`));
+game.watch("choices", ([a, b]) => console.log(`${a.name} or ${b.name}?`));
 
-custom.watch("points", (points) => console.log(`Got points! Total score: ${points}`));
+game.watch("points", (points) => console.log(`Got points! Total score: ${points}`));
 
 // expose instance for testing
-(window as any).custom = custom;
+(window as any).game = custom;
