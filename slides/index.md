@@ -212,10 +212,10 @@ interface Choice {
 
 Simple view that renders the state of a button
 
-`CustomWidget`
+`SimpleWidget`
 
 ```ts
-interface CustomWidget extends Widget {
+interface SimpleWidget extends Widget {
   enabled: boolean;
 }
 ```
@@ -224,13 +224,13 @@ interface CustomWidget extends Widget {
 
 <!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-5.png" data-background-size="cover" -->
 
-# Demo: [Simple View](../demos/3-simple-view/)
+# Demo: [Simple Widget](../demos/3-simple-view/)
 
 Develop a simple widget
 
 ---
 
-# Demo Recap: Simple View
+# Demo Recap: Simple Widget
 
 - Extended `esri/widgets/Widget`
 - Implemented `render()`
@@ -287,11 +287,11 @@ Develop a simple widget
 
 ---
 
-# Lets create a custom widget
+# Lets create a Game Widget
 
 [![Completed Demo](img/completed-demo.png)](../demos/completed/)
 
-Simple Guess Where game
+Simple Guess Where game widget
 
 ---
 
@@ -332,7 +332,7 @@ interface GuessWhere extends Widget {
 
 # Demo: [Updated View](../demos/4-updated-view/)
 
-- Use `CustomClass` as `GuessWhereViewModel`
+- Use `Game` class as `GuessWhereViewModel`
   - Add a state property
 - Create `GuessWhere` view
   - Alias VM properties
@@ -369,9 +369,9 @@ interface GuessWhere extends Widget {
 # Final Recap
 
 - Set up dev environment
-- Wrote a custom class
-- Developed a custom Widget
-- Enhanced a Widget
+- Wrote a Game class
+- Developed a Game Widget
+- Enhanced Game Widget
 - Went further
 
 ---
