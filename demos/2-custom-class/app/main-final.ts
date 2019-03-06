@@ -1,6 +1,6 @@
 import Map = require("esri/Map");
 import MapView = require("esri/views/MapView");
-import Game = require("./Game");
+import GuessWhere = require("./GuessWhere");
 
 //----------------
 //  map setup
@@ -18,14 +18,14 @@ const view = new MapView({
 });
 
 //----------------
-//  create game class
+//  create GuessWhere class
 //----------------
 
-const game = new Game({ view });
+const guessWhere = new GuessWhere({ view });
 
-game.watch("choices", ([a, b]) => console.log(`${a.name} or ${b.name}?`));
+guessWhere.watch("choices", ([a, b]) => console.log(`${a.name} or ${b.name}?`));
 
-game.watch("points", (points) => console.log(`Got points! Total score: ${points}`));
+guessWhere.watch("points", (points) => console.log(`Got points! Total score: ${points}`));
 
 // expose instance for testing
-(window as any).game = custom;
+(window as any).guessWhere = guessWhere;

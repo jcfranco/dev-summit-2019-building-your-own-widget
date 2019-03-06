@@ -12,19 +12,19 @@ import { declared, property, subclass } from "esri/core/accessorSupport/decorato
 import { Choice, Choices } from "./interfaces";
 import { pickChoices } from "./utils";
 
-interface GameProperties {
+interface GuessWhereProperties {
   view: MapView | SceneView;
 }
 
-@subclass("esri.demo.Game")
-class Game extends declared(Accessor) {
+@subclass("esri.demo.GuessWhere")
+class GuessWhere extends declared(Accessor) {
   //--------------------------------------------------------------------------
   //
   //  Lifecycle
   //
   //--------------------------------------------------------------------------
 
-  constructor(props?: GameProperties) {
+  constructor(props?: GuessWhereProperties) {
     super();
   }
 
@@ -145,4 +145,4 @@ class Game extends declared(Accessor) {
   }
 }
 
-export = Game;
+export = GuessWhere;

@@ -13,10 +13,10 @@
 
 - Set up dev environment
 - Develop
-  - Game Class
+  - GuessWhere Class
   - Simple Widget
-  - Game Widget
-- Enhance Game Widget
+  - GuessWhere Widget
+- Enhance GuessWhere Widget
 
 ---
 
@@ -128,10 +128,10 @@ me.watch("age", singHappyBirthday);
 
 <!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-5.png" data-background-size="cover" -->
 
-# Demo: [Game Class](../demos/2-custom-class/)
+# Demo: [GuessWhere Class](../demos/2-custom-class/)
 
 ```ts
-interface Game extends Accessor {
+interface GuessWhere extends Accessor {
   view: MapView | SceneView;
   readonly choices: Choice[];
   readonly points: number;
@@ -150,7 +150,7 @@ interface Choice {
 
 <!-- .slide: data-background="../node_modules/esri-reveal.js-templates/img/2019/devsummit/bg-5.png" data-background-size="cover" -->
 
-# Demo Recap: Game Class
+# Demo Recap: GuessWhere Class
 
 - Implemented `GuessWhere`
   - Extended `esri/core/Accessor`
@@ -287,11 +287,11 @@ Develop a simple widget
 
 ---
 
-# Lets create a Game Widget
+# Lets create `GuessWhere` Widget
 
 [![Completed Demo](img/completed-demo.png)](../demos/completed/)
 
-Simple Guess Where game widget
+Simple `GuessWhere` game widget
 
 ---
 
@@ -369,9 +369,9 @@ interface GuessWhere extends Widget {
 # Final Recap
 
 - Set up dev environment
-- Wrote a Game class
-- Developed a Game Widget
-- Enhanced Game Widget
+- Wrote `GuessWhere` class
+- Developed a `GuessWhere` Widget
+- Enhanced `GuessWhere` Widget
 - Went further
 
 ---
