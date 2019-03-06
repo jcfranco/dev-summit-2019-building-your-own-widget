@@ -21,14 +21,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/core/tsSupport/decorateHelper", "esri/core/Accessor", "esri/Graphic", "esri/core/accessorSupport/decorators", "./utils"], function (require, exports, __extends, __decorate, Accessor, Graphic, decorators_1, utils_1) {
     "use strict";
-    var CustomClass = /** @class */ (function (_super) {
-        __extends(CustomClass, _super);
+    var GuessWhere = /** @class */ (function (_super) {
+        __extends(GuessWhere, _super);
         //--------------------------------------------------------------------------
         //
         //  Lifecycle
         //
         //--------------------------------------------------------------------------
-        function CustomClass(props) {
+        function GuessWhere(props) {
             var _this = _super.call(this) || this;
             //--------------------------------------------------------------------------
             //
@@ -98,11 +98,11 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
         //  Public Methods
         //
         //--------------------------------------------------------------------------
-        CustomClass.prototype.start = function () {
+        GuessWhere.prototype.start = function () {
             this._setNextChoices();
             this._set("points", 0);
         };
-        CustomClass.prototype.choose = function (choice) {
+        GuessWhere.prototype.choose = function (choice) {
             var correct = this.choices[this._correctIndex] === choice;
             if (correct) {
                 this._set("points", this.points + 1);
@@ -110,7 +110,7 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
             this._setNextChoices();
             return correct;
         };
-        CustomClass.prototype.end = function () {
+        GuessWhere.prototype.end = function () {
             this.view.graphics.removeAll();
         };
         //--------------------------------------------------------------------------
@@ -118,7 +118,7 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
         //  Private Methods
         //
         //--------------------------------------------------------------------------
-        CustomClass.prototype._goToChoice = function (choices) {
+        GuessWhere.prototype._goToChoice = function (choices) {
             if (!choices) {
                 return;
             }
@@ -128,7 +128,7 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
             view.graphics.removeAll();
             view.graphics.add(correct.feature);
         };
-        CustomClass.prototype._setNextChoices = function () {
+        GuessWhere.prototype._setNextChoices = function () {
             var choices = utils_1.pickChoices(this._choices);
             this._correctIndex = Math.floor(Math.random() * 2);
             this._set("choices", choices);
@@ -138,20 +138,20 @@ define(["require", "exports", "esri/core/tsSupport/declareExtendsHelper", "esri/
             decorators_1.property({
                 readOnly: true
             })
-        ], CustomClass.prototype, "choices", void 0);
+        ], GuessWhere.prototype, "choices", void 0);
         __decorate([
             decorators_1.property({
                 readOnly: true
             })
-        ], CustomClass.prototype, "points", void 0);
+        ], GuessWhere.prototype, "points", void 0);
         __decorate([
             decorators_1.property()
-        ], CustomClass.prototype, "view", void 0);
-        CustomClass = __decorate([
-            decorators_1.subclass("esri.demo.CustomClass")
-        ], CustomClass);
-        return CustomClass;
+        ], GuessWhere.prototype, "view", void 0);
+        GuessWhere = __decorate([
+            decorators_1.subclass("esri.demo.GuessWhere")
+        ], GuessWhere);
+        return GuessWhere;
     }(decorators_1.declared(Accessor)));
-    return CustomClass;
+    return GuessWhere;
 });
 //# sourceMappingURL=GuessWhereViewModel.js.map

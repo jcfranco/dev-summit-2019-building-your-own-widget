@@ -1,0 +1,1 @@
+//# sourceMappingURL=SimpleWidget.js.map

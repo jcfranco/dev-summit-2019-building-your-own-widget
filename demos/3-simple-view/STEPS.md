@@ -1,6 +1,6 @@
 # Simple View Steps
 
-## Setup Basic Class
+## Setup SimpleWidget
 
 Open `SimpleWidget.tsx` and add the following basic class to the empty file.
 
