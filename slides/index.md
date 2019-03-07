@@ -210,9 +210,7 @@ interface Choice {
 
 # Lets create a simple widget
 
-Simple view that renders the state of a button
-
-`SimpleWidget`
+Simple widget view that renders the an `enabled` state of a button
 
 ```ts
 interface SimpleWidget extends Widget {
