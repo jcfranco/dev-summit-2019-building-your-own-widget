@@ -170,9 +170,9 @@ interface Choice {
 # About Widgets
 
 - What? <!-- .element: class="fragment" data-fragment-index="1" -->
+  - Single-purpose pieces of functionality
   - Encapsulated UI components
   - Cohesive (integrated, unified)
-  - Single-purpose pieces of functionality
 - Why? <!-- .element: class="fragment" data-fragment-index="2" -->
   - Reusable
   - Interchangeable
@@ -227,6 +227,8 @@ interface SimpleWidget extends Widget {
 # Demo: [SimpleWidget](../demos/3-simple-view/)
 
 Develop a simple widget
+
+![Simple Widget](img/simple-widget.png)
 
 ---
 
