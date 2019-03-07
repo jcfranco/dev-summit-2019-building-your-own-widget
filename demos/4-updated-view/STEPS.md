@@ -40,6 +40,8 @@ private _active: boolean = false;
 
 Compile and view the [vm-test.html](vm-test.html) page
 
+Check the console for the VM properties. However, `state` isn't quite working yet.
+
 ## Modify `start()` method to update `_active`
 
 ```ts
@@ -72,6 +74,8 @@ Try the following commands in the console.
 - `vm.end();`
 
 # View Steps
+
+Lets setup our Widget View for the game.
 
 ## Add Properties
 
